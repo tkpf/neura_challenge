@@ -5,7 +5,7 @@ import rospy
 # from edge_detector import getEdges
 import cv2 as cv
 import numpy as np
-from vision_processing.scripts import bridge
+import bridge
 from sensor_msgs.msg import Image
 from vision_processing.srv import FindEdgesInImage, FindEdgesInImageResponse
 
