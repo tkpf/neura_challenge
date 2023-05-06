@@ -18,7 +18,7 @@ def edge_detection_service():
 
 def detectEdges(req_img):
     print(req_img)
-    print(req_img.encoding)
+    print(req_img.img.encoding)
     bridge = CvBridge()
     img_in_cvformat = bridge.imgmsg_to_cv2(req_img)
     processed_img_in_cvformat = getEdges(img_in_cvformat)
