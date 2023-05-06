@@ -37,7 +37,7 @@ IMAGE_STREAM_TOPIC = '/camera/color/image_raw'
 
 def callback(data):
     #rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.data)
-    print(data)
+    
     img = np.frombuffer(data.data, dtype=np.uint8)
     enriched_img = detect_edges_in_image(img)
     cv.imshow('Analyzed Image',enriched_img)
