@@ -23,7 +23,10 @@ def processImage(filepath):
         print("Calling Service...")
         resp = vision_processing_srv(img_in_matformat)
         print("Service response received.")
-        return bridge.imgmsg_to_cv2(resp.imgOut)
+        img_analyzed_in_cvformat = bridge.imgmsg_to_cv2(resp.imgOut)
+        print(img_analyzed_in_cvformat)
+        print(img_analyzed_in_cvformat.shape)
+        return img_analyzed_in_cvformat
     except rospy.ServiceException as e:
         print("Service call failed: %s"%e)
 
@@ -37,9 +40,7 @@ if __name__ == "__main__":
         print("To many arguments provided. Abort...")
         sys.exit()
     img = processImage(filepath)
-    img = cv.imread(filepath)
     print("Show Image...")
     cv.imshow('Analyzed_Img',img)
-    cv.waitKey(5000) # delay for 5000 ms (5 seconds)
-    cv.destroyAllWindows()
-
+    if cv.waitKey(0) & 0xff == 27:
+        cv.destroyAllWindows()
