@@ -11,8 +11,6 @@ def processImage(filepath):
     img_in_cvformat = cv.imread(filepath)
     print("File found!")
     bridge = CvBridge()
-    #dtype, n_channels = bridge.encoding_as_cvtype2('8UC3')    
-    img_in_cvformat = np.ndarray(shape=(4, 6, 3), dtype=np.uint8)
     img_in_matformat = bridge.cv2_to_imgmsg(img_in_cvformat, encoding="bgr8")
     print(img_in_matformat.encoding)
     print("File converted to cv format. Waiting for Service.")
