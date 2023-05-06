@@ -7,7 +7,7 @@ import numpy as np
 
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-from edge_detection.srv import EdgeDetection, DetectionResponse
+from edge_detection.srv import EdgeDetection, EdgeDetectionResponse
 
 
 
@@ -21,7 +21,7 @@ def detection_service_callback(req):
     bridge = CvBridge()
     img_in_cvformat = bridge.imgmsg_to_cv2(req.img)
     processed_img_in_cvformat = detect_edges(img_in_cvformat)
-    return DetectionResponse(bridge.cv2_to_imgmsg(processed_img_in_cvformat))
+    return EdgeDetectionResponse(bridge.cv2_to_imgmsg(processed_img_in_cvformat))
 
 def detect_edges(img):
     # # Apply Gaussian Smoothing

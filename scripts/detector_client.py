@@ -6,7 +6,7 @@ import cv2 as cv
 import numpy as np
 
 from cv_bridge import CvBridge
-from edge_detection.srv import EdgeDetection, DetectionResponse
+from edge_detection.srv import EdgeDetection, EdgeDetectionResponse
 
 def detect_edges_in_image(img_in_cvformat):
     bridge = CvBridge()
