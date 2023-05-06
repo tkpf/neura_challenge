@@ -39,5 +39,6 @@ if __name__ == "__main__":
     img = processImage(filepath)
     print("Show Image...")
     cv.imshow('dst',img)
-    if cv.waitKey(0) & 0xff == 27:
-        cv.destroyAllWindows()
+    cv.waitKey(5000) # delay for 5000 ms (5 seconds)
+    cv.destroyAllWindows()
+
