@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>vision_processing</name>
+  <name>edge_detector</name>
   <version>0.0.0</version>
-  <description>The vision_processing package</description>
+  <description>The edge_detector package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
