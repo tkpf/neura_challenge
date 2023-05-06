@@ -13,7 +13,7 @@ def processImage(filepath):
     bridge = CvBridge()
     #dtype, n_channels = bridge.encoding_as_cvtype2('8UC3')    
     img_in_cvformat = np.ndarray(shape=(480, 640, 3), dtype=np.uint8)
-    img_in_matformat = bridge.cv2_to_imgmsg(img_in_cvformat, encoding="bgr8")
+    img_in_matformat = bridge.cv2_to_imgmsg(img_in_cvformat, encoding="8UCR")
     print("File converted to cv format. Waiting for Service.")
     rospy.wait_for_service("vision_processing_srv")
     print("Service found.")
