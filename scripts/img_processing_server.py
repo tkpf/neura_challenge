@@ -16,11 +16,9 @@ def edge_detection_service():
     print("Ready to process Image...")
     rospy.spin()
 
-def detectEdges(req_img):
-    print(req_img)
-    print(req_img.img.encoding)
+def detectEdges(req):
     bridge = CvBridge()
-    img_in_cvformat = bridge.imgmsg_to_cv2(req_img)
+    img_in_cvformat = bridge.imgmsg_to_cv2(req.img)
     processed_img_in_cvformat = getEdges(img_in_cvformat)
     return FindEdgesInImageResponse(bridge.cv2_to_imgmsg(processed_img_in_cvformat))#, encoding='bgr8'))
 
