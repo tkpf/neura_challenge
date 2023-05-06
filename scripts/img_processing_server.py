@@ -19,9 +19,9 @@ def edge_detection_service():
 
 def detectEdges(req_img):
     bridge = CvBridge()
-    img_in_cvformat = bridge.imgmsg_to_cv2(req_img,'bgr8')
+    img_in_cvformat = bridge.imgmsg_to_cv2(req_img)
     processed_img_in_cvformat = getEdges(img_in_cvformat)
-    return FindEdgesInImageResponse(bridge.cv2_to_imgmsg(processed_img_in_cvformat, "bgr8"))#, encoding='bgr8'))
+    return FindEdgesInImageResponse(bridge.cv2_to_imgmsg(processed_img_in_cvformat))#, encoding='bgr8'))
 
 def getEdges(img):
     # # Apply Gaussian Smoothing
