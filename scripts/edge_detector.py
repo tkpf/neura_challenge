@@ -7,13 +7,13 @@ import numpy as np
 
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-from edge_detection.srv import EdgeDetector, DetectionResponse
+from edge_detection.srv import EdgeDetection, DetectionResponse
 
 
 
 def edge_detection_service():
     rospy.init_node("edge_detection_service")
-    s = rospy.Service("edge_detection", EdgeDetector, detection_service_callback)
+    s = rospy.Service("edge_detection", EdgeDetection, detection_service_callback)
     print("Ready to process Image...")
     rospy.spin()
 

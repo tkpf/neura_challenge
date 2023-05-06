@@ -6,7 +6,7 @@ import cv2 as cv
 import numpy as np
 
 from cv_bridge import CvBridge
-from edge_detection.srv import EdgeDetector, DetectionResponse
+from edge_detection.srv import EdgeDetection, DetectionResponse
 
 def detect_edges_in_image(img_in_cvformat):
     bridge = CvBridge()
@@ -15,7 +15,7 @@ def detect_edges_in_image(img_in_cvformat):
     rospy.wait_for_service("edge_detection")
     print("Service found.")
     try:
-        vision_processing_srv = rospy.ServiceProxy('edge_detection', EdgeDetector)
+        vision_processing_srv = rospy.ServiceProxy('edge_detection', EdgeDetection)
         print("Calling Service...")
         resp = vision_processing_srv(imgmsg)
         print("Service response received.")
