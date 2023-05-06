@@ -1,7 +1,7 @@
 import sys
 import rospy
 import cv2 as cv
-from cv_bridge import CvBridge
+from bridge import CvBridge
 import numpy as np
 from vision_processing.srv import FindEdgesInImage, FindEdgesInImageResponse
 
