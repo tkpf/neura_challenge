@@ -22,8 +22,6 @@ def processImage(filepath):
         resp = vision_processing_srv(img_in_matformat)
         print("Service response received.")
         img_analyzed_in_cvformat = bridge.imgmsg_to_cv2(resp.imgOut)
-        print(img_analyzed_in_cvformat)
-        print(img_analyzed_in_cvformat.shape)
         return img_analyzed_in_cvformat
     except rospy.ServiceException as e:
         print("Service call failed: %s"%e)
