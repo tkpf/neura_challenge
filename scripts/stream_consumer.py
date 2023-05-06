@@ -2,9 +2,9 @@
 
 from cv_bridge import CvBridge
 
-def detect_edges_in_image(img_in_cvformat):
+def detect_edges_in_image(imgmsg):
     bridge = CvBridge()
-    imgmsg = bridge.cv2_to_imgmsg(img_in_cvformat, encoding="bgr8")
+    # imgmsg = bridge.cv2_to_imgmsg(img_in_cvformat, encoding="bgr8")
     print("File converted to cv format. Waiting for Service.")
     rospy.wait_for_service("edge_detection")
     print("Service found.")
