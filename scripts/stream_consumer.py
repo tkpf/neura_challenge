@@ -12,7 +12,6 @@ def detect_edges_in_image(img_in_cvformat):
     try:
         vision_processing_srv = rospy.ServiceProxy('edge_detection', EdgeDetection)
         print("Calling Service...")
-        print(imgmsg)
         #resp = vision_processing_srv(imgmsg)
         print("Service response received.")
         #img_analyzed = bridge.imgmsg_to_cv2(resp.img)
