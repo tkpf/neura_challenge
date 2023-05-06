@@ -5,7 +5,7 @@ import rospy
 # from edge_detector import getEdges
 import cv2 as cv
 import numpy as np
-from vision_processing.scripts.bridge import CvBridge
+from vision_processing.scripts import bridge
 from sensor_msgs.msg import Image
 from vision_processing.srv import FindEdgesInImage, FindEdgesInImageResponse
 
@@ -18,7 +18,7 @@ def edge_detection_service():
     rospy.spin()
 
 def detectEdges(req_img):
-    bridge = CvBridge()
+    bridge = bridge.CvBridge()
     img_in_cvformat = bridge.imgmsg_to_cv2(req_img)
     processed_img_in_cvformat = getEdges(img_in_cvformat)
     return FindEdgesInImageResponse(bridge.cv2_to_imgmsg(processed_img_in_cvformat))#, encoding='bgr8'))
