@@ -4,6 +4,7 @@ import sys
 import rospy
 import cv2 as cv
 import numpy as np
+from cv_bridge import CvBridge
 from vision_processing.srv import FindEdgesInImage, FindEdgesInImageResponse
 
 def processImage(filepath):

@@ -2,7 +2,7 @@
 
 # some snippets may originally come from https://github.com/lucasw/image_manip/blob/master/image_manip/scripts/image_folder_publisher.py
 import rospy
-# from edge_detector import getEdges
+from cv_bridge import CvBridge
 import cv2 as cv
 import numpy as np
 from sensor_msgs.msg import Image
