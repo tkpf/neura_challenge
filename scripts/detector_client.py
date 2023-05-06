@@ -39,7 +39,7 @@ if __name__ == "__main__":
     img_enriched = detect_edges_in_image(img)
 
     print("Show Image...")
-    cv.imshow('dst',img)
+    cv.imshow('Analyzed_img',img_enriched)
     cv.waitKey(3000) # delay for 5000 ms (5 seconds)
     cv.destroyAllWindows()
     # cv.imshow('Analyzed_Img',img)
