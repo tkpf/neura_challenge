@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from cv_bridge import CvBridge
+from edge_detection.srv import EdgeDetection, EdgeDetectionResponse
 
 def detect_edges_in_image(imgmsg):
     bridge = CvBridge()
