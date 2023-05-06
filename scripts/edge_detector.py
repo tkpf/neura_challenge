@@ -1,7 +1,29 @@
-import numpy as np
-import cv2 as cv
+# !/usr/bin/env python
 
-def getEdges(img):
+# some snippets may originally come from https://github.com/lucasw/image_manip/blob/master/image_manip/scripts/image_folder_publisher.py
+import rospy
+import cv2 as cv
+import numpy as np
+
+from cv_bridge import CvBridge
+from sensor_msgs.msg import Image
+from edge_detection.srv import EdgeDetector, DetectionResponse
+
+
+
+def edge_detection_service():
+    rospy.init_node("edge_detection_service")
+    s = rospy.Service("edge_detection", EdgeDetector, detection_service_callback)
+    print("Ready to process Image...")
+    rospy.spin()
+
+def detection_service_callback(req):
+    bridge = CvBridge()
+    img_in_cvformat = bridge.imgmsg_to_cv2(req.img)
+    processed_img_in_cvformat = detect_edges(img_in_cvformat)
+    return DetectionResponse(bridge.cv2_to_imgmsg(processed_img_in_cvformat))
+
+def detect_edges(img):
     # # Apply Gaussian Smoothing
     # img =  cv.GaussianBlur(img, (5, 5), 0)
     # Apply Bilateral smoothing
@@ -20,4 +42,14 @@ def getEdges(img):
 
     # Threshold for an optimal value, 0.1-0.2 seems to be a code choice, default value was 0.01
     img[dst>0.12*dst.max()]=[0,0,255]
+    
     return img
+
+
+if __name__ == '__main__':
+    print("Main called.")
+    try:
+        edge_detection_service()
+    except rospy.ROSInterruptException:
+        print("Error occured. Abort...")
+        rospy.logerr("Error")
