@@ -58,7 +58,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate services in the 'srv' folder
  add_service_files(
    FILES
-   FindEdgesInImage.srv
+   EdgeDetection.srv
  )
 
 ## Generate actions in the 'action' folder
@@ -162,8 +162,8 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
   scripts/edge_detector.py
-  scripts/img_processing_server.py 
-  scripts/simple_img_client.py
+  scripts/detector_client.py
+  scripts/stream_consumer.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
