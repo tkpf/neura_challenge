@@ -36,7 +36,7 @@ if __name__ == "__main__":
         
     img = cv.imread(filepath)
     print("File found and read!")
-    img_enriched = detect_edges_in_image(filepath)
+    img_enriched = detect_edges_in_image(img)
 
     print("Show Image...")
     cv.imshow('dst',img)
