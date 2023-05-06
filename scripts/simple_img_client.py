@@ -23,7 +23,7 @@ def processImage(filepath):
         print("Calling Service...")
         resp = vision_processing_srv(img_in_matformat)
         print("Service response received.")
-        return bridge.imgmsg_to_cv2(resp.imgOutssss)
+        return bridge.imgmsg_to_cv2(resp.imgOut)
     except rospy.ServiceException as e:
         print("Service call failed: %s"%e)
 
