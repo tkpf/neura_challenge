@@ -37,8 +37,9 @@ if __name__ == "__main__":
         print("To many arguments provided. Abort...")
         sys.exit()
     img = processImage(filepath)
+    img = cv.imread(filepath)
     print("Show Image...")
-    cv.imshow('dst',img)
+    cv.imshow('Analyzed_Img',img)
     cv.waitKey(5000) # delay for 5000 ms (5 seconds)
     cv.destroyAllWindows()
 
