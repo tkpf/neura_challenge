@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(vision_processing)
+project(edge_detection)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -12,8 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
-  message_generation
-)
+  message_genera
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -73,7 +72,6 @@ find_package(catkin REQUIRED COMPONENTS
    DEPENDENCIES
    sensor_msgs#   std_msgs
  )
-
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
 ################################################
@@ -117,13 +115,28 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
+file(GLOB_RECURSE CPP_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+
+include_directories(
+	include
+)
+
+set(SOURCES ${CPP_FILES})
+add_library(TARGET_NAME SHARED ${SOURCES})
+target_include_directories(TARGET_NAME PUBLIC ${INCLUDE_DIRECTORIES} )
+target_link_libraries(TARGET_NAME ) # fill this up with the dependencies you want for eg opencv
+
+add_executable(edge_detection_bin src/EdgeDetector.cpp )
+target_include_directories(edge_detection_bin PUBLIC ${INCLUDE_DIRECTORIES} )
+target_link_libraries(edge_detection_bin TARGET_NAME)
+
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/vision_processing.cpp
+#   src/${PROJECT_NAME}/edge_detection.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -134,7 +147,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/vision_processing_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/edge_detection_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -200,7 +213,7 @@ catkin_install_python(PROGRAMS
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_vision_processing.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_edge_detection.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
