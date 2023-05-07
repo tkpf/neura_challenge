@@ -27,6 +27,8 @@ def detect_edges_in_image(img_in_cvformat):
 
 
 if __name__ == "__main__":
+    for i in sys.argv:
+        print(i)
     if len(sys.argv) == 3:
         filepath = sys.argv[2]
         print("Search for file at location %s.")
