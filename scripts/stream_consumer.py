@@ -73,6 +73,8 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     # calibration matrices are different for color and depth camera 
     # thus project first to image plane, then check for correspondent depth
     # TODO what is depth, which values does it take?
+    print(points_2d.shape)
+    print(img_depth.shape)
     assert(points_2d.shape[1] == 2)
     assert(K_color.shape == (3,3) and K_depth.shape == (3,3))
     h_points_2d_color = points_2d.T + np.ones(points_2d.shape[0])
