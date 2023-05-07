@@ -52,7 +52,6 @@ def detect_edges_canny(img):
 
     # Detect edges using Canny algorithm
     edges = cv.Canny(gray, 100, 200)
-    print(edges)
     # dilate to see
     cv.dilate(edges,None)
     # img is not writable, see img.flags e.g. by printing
