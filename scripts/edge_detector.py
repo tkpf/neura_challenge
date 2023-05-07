@@ -59,12 +59,14 @@ def detect_edges_canny(img):
     # Draw contours on original image in green color
     cv.drawContours(img, contours, -1, (0, 255, 0), 2)
 
-    # Iterate over contours and extract start and end points
-    for contour in contours:
-        # Get the first and last point in the contour
-        start_point = tuple(contour[0][0])
-        end_point = tuple(contour[-1][0])
-        print(f"Start at {start_point}, End at {end_point}")
+    print(contours)
+
+    # # Iterate over contours and extract start and end points
+    # for contour in contours:
+    #     # Get the first and last point in the contour
+    #     start_point = tuple(contour[0][0])
+    #     end_point = tuple(contour[-1][0])
+    #     print(f"Start at {start_point}, End at {end_point}")
 
     return img
 
