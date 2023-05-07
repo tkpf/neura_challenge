@@ -114,17 +114,20 @@ def edged_image_callback(data):
 
 # TODO threading, wait for image data to drop in
 def depth_image_callback(data):
-    print("Depth Image received!")
+    global cur_depth_image
     cur_depth_image = CvBridge().imgmsg_to_cv2(data)
 
+# TODO delete global variables
 def camera_color_intrinistics_callback(data):
     # By manually inspection it is clear, that all intrinistic parameters of the camera are given with K
+    global calibration_matrix_color
     calibration_matrix_color = data.K
     # calibration parameters are persistent, thus unregister after first retrievment
     # TODO rospy.Subscriber.unregister("camera_color_intrinistics")
 
 def camera_depth_intrinistics_callback(data):
     # By manually inspection it is clear, that all intrinistic parameters of the camera are given with K
+    global calibration_matrix_depth
     calibration_matrix_depth = data.K
     # calibration parameters are persistent, thus unregister after first retrievment
     # TODO rospy.Subscriber.unregister("camera_depth_intrinistics")
