@@ -20,7 +20,7 @@ def edge_detection_service():
 def detection_service_callback(req):
     bridge = CvBridge()
     img_in_cvformat = bridge.imgmsg_to_cv2(req.img)
-    processed_img_in_cvformat = detect_edges(img_in_cvformat)
+    processed_img_in_cvformat = detect_edges_canny(img_in_cvformat)
     return EdgeDetectionResponse(bridge.cv2_to_imgmsg(processed_img_in_cvformat))
 
 def detect_edges(img):
@@ -58,7 +58,7 @@ def detect_edges_canny(img):
     print(edges.shape)
     print("----------")
     print(img.shape)
-    img[edges == 1] = [0, 255, 0]
+    img[edges >= 1] = [0, 255, 0]
     cv.imshow('Analyzed_Img',edges)
     if cv.waitKey(0) & 0xff == 27:
         cv.destroyAllWindows()
