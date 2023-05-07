@@ -56,7 +56,7 @@ def callback(data):
     # cv.imshow('Analyzed Image',data.data)
     # cv.waitKey(1000) # delay for 5000 ms (5 seconds)
     # cv.destroyAllWindows()
-    enriched_img = broker(data.data)
+    enriched_img = broker(data)
     cv.imshow('Analyzed Image',enriched_img)
     cv.waitKey(2000) # delay for 5000 ms (5 seconds)
     cv.destroyAllWindows()
