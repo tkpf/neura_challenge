@@ -109,10 +109,11 @@ def edged_image_callback(data):
     #edges_coordinates = [list(i) for i in edges_coordinates]
     if cur_depth_image:
         points_3d = construct_3d_points(edges_coordinates, cur_depth_image, calibration_matrix_color, calibration_matrix_depth)
-        print(points_3d[100])
+        print(points_3d)
 
 # TODO threading, wait for image data to drop in
 def depth_image_callback(data):
+    print("Depth Image received!")
     cur_depth_image = data
 
 def camera_color_intrinistics_callback(data):
