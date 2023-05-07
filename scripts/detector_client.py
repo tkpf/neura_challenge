@@ -41,9 +41,9 @@ if __name__ == "__main__":
     img_enriched = detect_edges_in_image(img)
 
     print("Show Image...")
-    cv.imshow('Analyzed_img',img_enriched)
-    cv.waitKey(3000) # delay for 5000 ms (5 seconds)
-    cv.destroyAllWindows()
-    # cv.imshow('Analyzed_Img',img)
-    # if cv.waitKey(0) & 0xff == 27:
-    #     cv.destroyAllWindows()
+    # cv.imshow('Analyzed_img',img_enriched)
+    # cv.waitKey(3000) # delay for 5000 ms (5 seconds)
+    # cv.destroyAllWindows()
+    cv.imshow('Analyzed_Img',img_enriched)
+    if cv.waitKey(0) & 0xff == 27:
+        cv.destroyAllWindows()
