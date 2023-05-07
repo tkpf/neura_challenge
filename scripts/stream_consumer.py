@@ -55,9 +55,9 @@ import numpy as np
 
 IMAGE_COLOR_STREAM_TOPIC = '/camera/color/image_raw'
 IMAGE_DEPTH_STREAM_TOPIC = '/camera/depth/image_rect_raw'
-IMAGE_COLOR_CAMERA_INFO_TOPIC = '(camera/color/camera_info'
+IMAGE_COLOR_CAMERA_INFO_TOPIC = '/camera/color/camera_info'
 IMAGE_EDGED_TOPIC = '/edge_detection/edged_image'
-EDGE_POINTS_3D_TOPIC = 'edge_detection/edge_points'
+EDGE_POINTS_3D_TOPIC = '/edge_detection/edge_points'
 
 #TODO camera info of depth image necessary? or rectified because of topic name?
 # TODO check if high and width equals resolution etc
@@ -67,7 +67,7 @@ calibration_matrix_color = None
 calibration_matrix_depth = None
 
 edged_image_publisher = rospy.Publisher(IMAGE_EDGED_TOPIC, Image, queue_size =5)
-point_3d_publisher = rospy.Publisher(EDGE_POINTS_3D_TOPIC, Point)
+point_3d_publisher = rospy.Publisher(EDGE_POINTS_3D_TOPIC, Point, queue_size =3)
 
 #TODO more efficient by passing whole image array at once, due to matrix operations this remains the same
 def construct_3d_points(points_2d, img_depth, K_color, K_depth):
