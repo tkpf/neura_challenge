@@ -52,6 +52,7 @@ def detect_edges_canny(img):
 
     # Detect edges using Canny algorithm
     edges = cv.Canny(gray, 100, 200)
+    img[edges == 1] = [0, 255, 0]
     cv.imshow('Analyzed_Img',edges)
     if cv.waitKey(0) & 0xff == 27:
         cv.destroyAllWindows()
@@ -61,7 +62,7 @@ def detect_edges_canny(img):
     contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
 
     # Draw contours on original image in green color
-    cv.drawContours(img, contours, -1, (0, 255, 0), 2)
+    #cv.drawContours(img, contours, -1, (0, 255, 0), 2)
 
     
 
