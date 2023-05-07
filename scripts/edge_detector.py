@@ -47,9 +47,6 @@ def detect_edges(img):
 
 
 def detect_edges_canny(img):
-    # Load the image
-    img = cv.imread('your_image_file.jpg')
-
     # Convert to grayscale
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
