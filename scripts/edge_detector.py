@@ -43,9 +43,6 @@ def detect_edges(img):
     # Threshold for an optimal value, 0.1-0.2 seems to be a code choice, default value was 0.01
     print(img)
     img[dst>0.12*dst.max()]=[0,0,255]
-    print(dst.shape)
-    print("----------")
-    print(img.shape)
     return img
 
 
@@ -56,16 +53,8 @@ def detect_edges_canny(img):
     # Detect edges using Canny algorithm
     edges = cv.Canny(gray, 100, 200)
     print(edges.shape)
-    print("----------")
-    print(img.shape)
-    print(img[:,:,1].shape)
-    print(img.flags)
-    img_writable = np.copy(img)
-    img_writable[:,:,1] = 255 * edges
-    cv.imshow('Analyzed_Img',edges)
-    if cv.waitKey(0) & 0xff == 27:
-        cv.destroyAllWindows()
-
+    img.setflags(write=1)
+    img[edges == 1] = [0, 255, 0]
 
     # Find contours of edges
     contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
