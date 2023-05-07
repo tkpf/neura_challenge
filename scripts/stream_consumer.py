@@ -108,6 +108,7 @@ def edged_image_callback(data):
     edges_coordinates = np.array(np.argwhere(img_in_cvformat == [0, 255, 0]))
     #edges_coordinates = [list(i) for i in edges_coordinates]
     if cur_depth_image:
+        print("Test")
         points_3d = construct_3d_points(edges_coordinates, cur_depth_image, calibration_matrix_color, calibration_matrix_depth)
         print(points_3d)
 
