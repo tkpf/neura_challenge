@@ -59,7 +59,7 @@ def detect_edges_canny(img):
     print("----------")
     print(img.shape)
     print(img[:][:][1].shape)
-    img[:][:][1] = 255 * edges
+    img[:,:,1] = 255 * edges
     cv.imshow('Analyzed_Img',edges)
     if cv.waitKey(0) & 0xff == 27:
         cv.destroyAllWindows()
