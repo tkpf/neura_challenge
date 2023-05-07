@@ -2,10 +2,6 @@
     <!-- Start the bag file -->
     <node name="bag_player" pkg="rosbag" type="play" args="--clock -l --hz 1 /home/till/catkin_ws/bag_files/withoutpointcloud.bag"/>
 
-    <!-- Republish and remap byte stream into MAT data-->
-    <node pkg="image_transport" type="republish" name="image_republisher" args="raw in:=/camera/color/image_raw out:=/camera/color/image_raw/republish"/>
-
-
     <!-- Start the edge_detector.py script -->
     <node name="edge_detector" pkg="edge_detection" type="edge_detector.py" output="screen"/>
 

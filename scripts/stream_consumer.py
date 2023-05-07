@@ -51,11 +51,6 @@ IMAGE_STREAM_TOPIC = '/camera/color/image_raw'
 
 def callback(data):
     #rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.data)
-    
-    #img = np.frombuffer(data.data, dtype=np.uint8)
-    # cv.imshow('Analyzed Image',data.data)
-    # cv.waitKey(1000) # delay for 5000 ms (5 seconds)
-    # cv.destroyAllWindows()
     enriched_img = broker(data)
     cv.imshow('Analyzed Image',enriched_img)
     cv.waitKey(2000) # delay for 5000 ms (5 seconds)
