@@ -58,7 +58,7 @@ def detect_edges_canny(img):
     print(edges.shape)
     print("----------")
     print(img.shape)
-    pritn(img[:][:][1].shape)
+    print(img[:][:][1].shape)
     img[:][:][1] = 255 * edges
     cv.imshow('Analyzed_Img',edges)
     if cv.waitKey(0) & 0xff == 27:
