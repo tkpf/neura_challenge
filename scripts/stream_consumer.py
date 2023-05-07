@@ -106,6 +106,7 @@ def edged_image_callback(data):
     # extract edge point through "greenness"
     img_in_cvformat = CvBridge().imgmsg_to_cv2(data)
     edges_coordinates = np.array(np.argwhere(img_in_cvformat == [0, 255, 0]))
+    print(edges_coordinates)
     #edges_coordinates = [list(i) for i in edges_coordinates]
     if cur_depth_image is not None:
         print("Test")
