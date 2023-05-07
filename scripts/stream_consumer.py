@@ -106,7 +106,6 @@ def edged_image_callback(data):
     # extract edge point through "greenness"
     img_in_cvformat = CvBridge().imgmsg_to_cv2(data)
     edges_coordinates = (img_in_cvformat == [0, 255, 0])
-    print(edges_coordinates[:20])
     edges_coordinates = np.array(np.argwhere(edges_coordinates[:,:,0]))
     print(edges_coordinates)
     #edges_coordinates = [list(i) for i in edges_coordinates]
@@ -131,6 +130,7 @@ def camera_color_intrinistics_callback(data):
 def camera_depth_intrinistics_callback(data):
     # By manually inspection it is clear, that all intrinistic parameters of the camera are given with K
     global calibration_matrix_depth
+    print(data)
     calibration_matrix_depth = np.array(data.K)
     # calibration parameters are persistent, thus unregister after first retrievment
     # TODO rospy.Subscriber.unregister("camera_depth_intrinistics")
