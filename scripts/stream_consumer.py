@@ -5,7 +5,7 @@ from edge_detection.srv import EdgeDetection, EdgeDetectionResponse
 
 def detect_edges_in_image(img_in_cvformat):
     bridge = CvBridge()
-    imgmsg = bridge.cv2_to_imgmsg(img_in_cvformat, encoding="mono8")
+    imgmsg = bridge.cv2_to_imgmsg(img_in_cvformat, encoding="bgr8")
     print("File converted to cv format. Waiting for Service.")
     rospy.wait_for_service("edge_detection")
     print("Service found.")
