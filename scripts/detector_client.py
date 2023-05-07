@@ -10,7 +10,7 @@ from edge_detection.srv import EdgeDetection, EdgeDetectionResponse
 
 def detect_edges_in_image(img_in_cvformat):
     bridge = CvBridge()
-    imgmsg = bridge.cv2_to_imgmsg(img_in_cvformat, encoding="bgr8")
+    imgmsg = bridge.cv2_to_imgmsg(img_in_cvformat, encoding="rgb8")
     print("File converted to cv format. Waiting for Service.")
     rospy.wait_for_service("edge_detection")
     print("Service found.")
@@ -36,8 +36,12 @@ if __name__ == "__main__":
         print("There was something wrong with the arguments provided. Imagefile could not be read.\n" %e)
         print("Aborting...")
         sys.exit()
-            
-    img = cv.imread(filepath)
+
+    print("Show Image...")
+    cv.imshow('img input',img)
+    cv.waitKey(3000) # delay for 5000 ms (5 seconds)
+    cv.destroyAllWindows()
+    print(img)
     print("File found and read!")
     img_enriched = detect_edges_in_image(img)
 
