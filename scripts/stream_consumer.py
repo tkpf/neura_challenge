@@ -48,6 +48,7 @@ def broker(imgmsg):
 import rospy
 import cv2 as cv
 from sensor_msgs.msg import Image, CameraInfo
+from geometry_msgs.msg import Point
 import numpy as np
 
 # from detector_client import detect_edges_in_image
@@ -66,7 +67,7 @@ calibration_matrix_color = None
 calibration_matrix_depth = None
 
 edged_image_publisher = rospy.Publisher(IMAGE_EDGED_TOPIC, Image, queue_size =5)
-point_3d_publisher = rospy.Publisher()
+point_3d_publisher = rospy.Publisher(EDGE_POINTS_3D_TOPIC, Point)
 
 #TODO more efficient by passing whole image array at once, due to matrix operations this remains the same
 def construct_3d_points(points_2d, img_depth, K_color, K_depth):
