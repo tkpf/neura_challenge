@@ -52,9 +52,9 @@ def detect_edges_canny(img):
 
     # Detect edges using Canny algorithm
     edges = cv.Canny(gray, 100, 200)
-    print(edges.shape)
-    img.setflags(write=1)
-    img[edges == 1] = [0, 255, 0]
+    # img is not writable, see img.flags e.g. by printing
+    img_writable = np.copy(img)
+    img_writable[edges == 1] = [0, 255, 0]
 
     # Find contours of edges
     contours, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
@@ -71,7 +71,7 @@ def detect_edges_canny(img):
     #     end_point = tuple(contour[-1][0])
     #     print(f"Start at {start_point}, End at {end_point}")
 
-    return img
+    return img_writable
 
 
 if __name__ == '__main__':
