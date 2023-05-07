@@ -107,10 +107,10 @@ def edged_image_callback(data):
     img_in_cvformat = CvBridge().imgmsg_to_cv2(data)
     edges_coordinates = np.array(np.argwhere(img_in_cvformat == [0, 255, 0]))
     #edges_coordinates = [list(i) for i in edges_coordinates]
-    if cur_depth_image:
+    if cur_depth_image is not None:
         print("Test")
         points_3d = construct_3d_points(edges_coordinates, cur_depth_image, calibration_matrix_color, calibration_matrix_depth)
-        print(points_3d)
+        print(points_3d[20])
 
 # TODO threading, wait for image data to drop in
 def depth_image_callback(data):
