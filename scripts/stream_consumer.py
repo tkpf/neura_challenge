@@ -77,7 +77,7 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     print(f"img_depth : {img_depth.shape}")
     assert(points_2d.shape[1] == 2)
     assert(K_color.shape == (3,3) and K_depth.shape == (3,3))
-    h_points_2d_color = points_2d.append(np.ones(points_2d.shape[0])).T
+    h_points_2d_color = np.concatenate(points_2d, np.ones(points_2d.shape[0]), axis=1).T
     print(f"h_2dshape : {h_points_2d_color.shape}")
 
     assert(h_points_2d_color.shape[0] == 3)
