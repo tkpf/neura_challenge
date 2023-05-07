@@ -36,8 +36,8 @@ if __name__ == "__main__":
         print("There was something wrong with the arguments provided. Imagefile could not be read.\n" %e)
         print("Aborting...")
         sys.exit()
-        
-    print("File found and read!")
+
+    print("Ready to process file!")
     img_enriched = detect_edges_in_image(img)
 
     print("Show Image...")
