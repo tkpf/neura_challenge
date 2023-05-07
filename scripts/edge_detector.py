@@ -41,6 +41,7 @@ def detect_edges(img):
     dst = cv.dilate(dst,None)
 
     # Threshold for an optimal value, 0.1-0.2 seems to be a code choice, default value was 0.01
+    print(img)
     img[dst>0.12*dst.max()]=[0,0,255]
     
     return img
@@ -52,7 +53,10 @@ def detect_edges_canny(img):
 
     # Detect edges using Canny algorithm
     edges = cv.Canny(gray, 100, 200)
-    img = img[edges == 1] = [0, 255, 0]
+    print(edges.shape)
+    print("----------")
+    print(img.shape)
+    img[edges == 1] = [0, 255, 0]
     cv.imshow('Analyzed_Img',edges)
     if cv.waitKey(0) & 0xff == 27:
         cv.destroyAllWindows()
