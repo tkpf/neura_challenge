@@ -7,8 +7,8 @@
 
 
     <!-- Start the edge_detector.py script -->
-    <node pkg="edge_detection" type="edge_detector.py" output="screen"/>
+    <node name="edge_detector" pkg="edge_detection" type="edge_detector.py" output="screen"/>
 
-    <!-- Start the stream_consumer.py script node name="my_consumer" -->
-    <node pkg="edge_detection" type="stream_consumer.py" output="screen"/>
+    <!-- Start the stream_consumer.py script node -->
+    <node name="stream_consumer" pkg="edge_detection" type="stream_consumer.py" output="screen"/>
 </launch>
