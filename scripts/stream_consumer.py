@@ -74,7 +74,7 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     # thus project first to image plane, then check for correspondent depth
     # TODO what is depth, which values does it take?
     assert(points_2d.shape[1] == 2)
-    assert(K_color.shape == (3,3) and K_depth.shape = (3,3))
+    assert(K_color.shape == (3,3) and K_depth.shape == (3,3))
     h_points_2d_color = points_2d.T + np.ones(points_2d.shape[0])
     assert(h_points_2d_color.shape[0] == 3)
     # undistort by calibration matrix
@@ -105,7 +105,7 @@ def edged_image_callback(data):
     img_in_cvformat = CvBridge().imgmsg_to_cv2(data)
     edges_coordinates = np.where(img_in_cvformat == [0, 255, 0])
 
-    points_3d = construct_3d_points(edges_coordinates)
+    points_3d = construct_3d_points(edges_coordinates, cur_depth_image, calibration_matrix_color, calibration_matrix_depth)
 
 
 # TODO threading, wait for image data to drop in
