@@ -20,7 +20,7 @@ def edge_detection_service():
 def detection_service_callback(req):
     bridge = CvBridge()
     img_in_cvformat = bridge.imgmsg_to_cv2(req.img)
-    processed_img_in_cvformat = detect_edges_canny(img_in_cvformat)
+    processed_img_in_cvformat = detect_edges(img_in_cvformat)
     return EdgeDetectionResponse(bridge.cv2_to_imgmsg(processed_img_in_cvformat))
 
 def detect_edges(img):
@@ -43,7 +43,9 @@ def detect_edges(img):
     # Threshold for an optimal value, 0.1-0.2 seems to be a code choice, default value was 0.01
     print(img)
     img[dst>0.12*dst.max()]=[0,0,255]
-    
+    print(dst.shape)
+    print("----------")
+    print(img.shape)
     return img
 
 
