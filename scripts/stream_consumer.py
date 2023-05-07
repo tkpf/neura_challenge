@@ -21,7 +21,6 @@ def detect_edges_in_image(img_in_cvformat):
 
 
 def broker(imgmsg):
-    bridge = CvBridge()
     print("Waiting for Service.")
     rospy.wait_for_service("edge_detection")
     print("Service found.")
@@ -117,13 +116,13 @@ def camera_color_intrinistics_callback(data):
     # By manually inspection it is clear, that all intrinistic parameters of the camera are given with K
     calibration_matrix_color = data.K
     # calibration parameters are persistent, thus unregister after first retrievment
-    rosby.Subscriber.unregister("camera_color_intrinistics")
+    rospy.Subscriber.unregister("camera_color_intrinistics")
 
 def camera_depth_intrinistics_callback(data):
     # By manually inspection it is clear, that all intrinistic parameters of the camera are given with K
     calibration_matrix_depth = data.K
     # calibration parameters are persistent, thus unregister after first retrievment
-    rosby.Subscriber.unregister("camera_depth_intrinistics")
+    rospy.Subscriber.unregister("camera_depth_intrinistics")
 
 def color_image_consumer():
     # init and subscribe
