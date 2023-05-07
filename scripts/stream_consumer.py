@@ -116,13 +116,13 @@ def camera_color_intrinistics_callback(data):
     # By manually inspection it is clear, that all intrinistic parameters of the camera are given with K
     calibration_matrix_color = data.K
     # calibration parameters are persistent, thus unregister after first retrievment
-    rospy.Subscriber.unregister("camera_color_intrinistics")
+    # TODO rospy.Subscriber.unregister("camera_color_intrinistics")
 
 def camera_depth_intrinistics_callback(data):
     # By manually inspection it is clear, that all intrinistic parameters of the camera are given with K
     calibration_matrix_depth = data.K
     # calibration parameters are persistent, thus unregister after first retrievment
-    rospy.Subscriber.unregister("camera_depth_intrinistics")
+    # TODO rospy.Subscriber.unregister("camera_depth_intrinistics")
 
 def color_image_consumer():
     # init and subscribe
