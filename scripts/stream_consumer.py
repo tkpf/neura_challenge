@@ -123,15 +123,14 @@ def depth_image_callback(data):
 def camera_color_intrinistics_callback(data):
     # By manually inspection it is clear, that all intrinistic parameters of the camera are given with K
     global calibration_matrix_color
-    calibration_matrix_color = np.array(data.K)
+    calibration_matrix_color = np.array(data.K).reshape(3,3)
     # calibration parameters are persistent, thus unregister after first retrievment
     # TODO rospy.Subscriber.unregister("camera_color_intrinistics")
 
 def camera_depth_intrinistics_callback(data):
     # By manually inspection it is clear, that all intrinistic parameters of the camera are given with K
     global calibration_matrix_depth
-    print(data.K)
-    calibration_matrix_depth = np.array(data.K)
+    calibration_matrix_depth = np.array(data.K).reshape(3,3)
     # calibration parameters are persistent, thus unregister after first retrievment
     # TODO rospy.Subscriber.unregister("camera_depth_intrinistics")
 
