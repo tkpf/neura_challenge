@@ -20,6 +20,20 @@ def detect_edges_in_image(img_in_cvformat):
         print("Service call failed: %s"%e)
 
 
+def broker(imgmsg):
+    bridge = CvBridge()
+    print("Waiting for Service.")
+    rospy.wait_for_service("edge_detection")
+    print("Service found.")
+    try:
+        vision_processing_srv = rospy.ServiceProxy('edge_detection', EdgeDetection)
+        print("Calling Service...")
+        resp = vision_processing_srv(imgmsg)
+        print("Service response received.")
+        img_analyzed = bridge.imgmsg_to_cv2(resp.img)
+        return img_analyzed
+    except rospy.ServiceException as e:
+        print("Service call failed: %s"%e)
 
 
 
@@ -39,10 +53,10 @@ def callback(data):
     #rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.data)
     
     #img = np.frombuffer(data.data, dtype=np.uint8)
-    cv.imshow('Analyzed Image',data.data)
-    cv.waitKey(1000) # delay for 5000 ms (5 seconds)
-    cv.destroyAllWindows()
-    enriched_img = detect_edges_in_image(data.data)
+    # cv.imshow('Analyzed Image',data.data)
+    # cv.waitKey(1000) # delay for 5000 ms (5 seconds)
+    # cv.destroyAllWindows()
+    enriched_img = broker(data.data)
     cv.imshow('Analyzed Image',enriched_img)
     cv.waitKey(2000) # delay for 5000 ms (5 seconds)
     cv.destroyAllWindows()
