@@ -27,17 +27,16 @@ def detect_edges_in_image(img_in_cvformat):
 
 
 if __name__ == "__main__":
-    for i in sys.argv:
-        print(i)
-    if len(sys.argv) == 3:
-        filepath = sys.argv[2]
+    try:
+        filepath = sys.arv[2]
         print("Search for file at location %s.")
-    else:
-        # Note: If script is run via rosrun command (and not roslaunch which is taken as default, the correct number of args is 2. then filepath= sys.argv[1]
-        print("Wrong number of arguments provided. Abort...")
-        print("Note: If script is run via rosrun command, you may need to check for only 2 arguments. Default is roslaunch with 3 arguments.")
+        img = cv.imread(filepath)
+        print("File found and read!")
+    except Exception as e:
+        print("There was something wrong with the arguments provided. Imagefile could not be read.\n" %e)
+        print("Aborting...")
         sys.exit()
-        
+            
     img = cv.imread(filepath)
     print("File found and read!")
     img_enriched = detect_edges_in_image(img)
