@@ -36,12 +36,7 @@ if __name__ == "__main__":
         print("There was something wrong with the arguments provided. Imagefile could not be read.\n" %e)
         print("Aborting...")
         sys.exit()
-
-    print("Show Image...")
-    cv.imshow('img input',img)
-    cv.waitKey(3000) # delay for 5000 ms (5 seconds)
-    cv.destroyAllWindows()
-    print(img)
+        
     print("File found and read!")
     img_enriched = detect_edges_in_image(img)
 
