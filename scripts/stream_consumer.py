@@ -127,36 +127,26 @@ def camera_depth_intrinistics_callback(data):
 def color_image_consumer():
     # init and subscribe
     rospy.init_node('color_image_consumer')
-    print("set up subscriber to color topic")
     rospy.Subscriber(IMAGE_COLOR_STREAM_TOPIC, Image, color_image_callback)
-    # live on until node is stopped
-    rospy.spin()
 
 def depth_image_consumer():
     # init and subscribe
     rospy.init_node('depth_image_consumer')
     rospy.Subscriber(IMAGE_DEPTH_STREAM_TOPIC, Image, depth_image_callback)
-    # live on until node is stopped
-    rospy.spin()
 
 def camera_color_intrinistics_listener():
     # init and subscribe
     rospy.init_node('camera_color_intrinistics')
     rospy.Subscriber(IMAGE_COLOR_CAMERA_INFO_TOPIC, CameraInfo, camera_color_intrinistics_callback)
-    # live on until node is stopped
-    rospy.spin()
 
 def camera_depth_intrinistics_listener():
     # init and subscribe
     rospy.init_node('camera_depth_intrinistics')
     rospy.Subscriber(IMAGE_COLOR_CAMERA_INFO_TOPIC, CameraInfo, camera_depth_intrinistics_callback)
-    # live on until node is stopped
-    rospy.spin()
 
 def edged_image_consumer():
     rospy.init_node('edged_image_consumer')
     rospy.Subscriber(IMAGE_EDGED_TOPIC, Image, edged_image_callback)
-    rospy.spin()
 
 # TODO only spin camera_intrinistics_callback until data is fetched once
 # TODO compare timestamps with depth_image and color_image
@@ -170,5 +160,7 @@ if __name__ == '__main__':
     rospy.init_node("edged_image_publisher")
     rospy.init_node("edged_image_publisher")
     edged_image_consumer()
+    print("Keep on spinning...")
+    rospy.spin()
     
 
