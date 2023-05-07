@@ -105,7 +105,7 @@ def color_image_callback(data):
 def edged_image_callback(data):
     # extract edge point through "greenness"
     img_in_cvformat = CvBridge().imgmsg_to_cv2(data)
-    print(np.argwhere([[0, 255, 0][3,2,6][2,3,6]] == [0, 255, 0]))
+    print(np.argwhere([[0, 255, 0],[3,2,6],[2,3,6]] == [0, 255, 0]))
     edges_coordinates = np.array(np.argwhere(img_in_cvformat == [0, 255, 0]))
     print(edges_coordinates)
     #edges_coordinates = [list(i) for i in edges_coordinates]
