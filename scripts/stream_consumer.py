@@ -115,7 +115,7 @@ def edged_image_callback(data):
 # TODO threading, wait for image data to drop in
 def depth_image_callback(data):
     print("Depth Image received!")
-    cur_depth_image = data
+    cur_depth_image = CvBridge().imgmsg_to_cv2(data)
 
 def camera_color_intrinistics_callback(data):
     # By manually inspection it is clear, that all intrinistic parameters of the camera are given with K
