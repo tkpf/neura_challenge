@@ -1,6 +1,6 @@
 <launch>
     <arg name="rvizconfig" default="$(find edge_detection)/rviz/urdf.rviz" />
-    <arg name="arg_open_rviz" default="true" />
+    <arg name="open_rviz" default="true" />
 
     <!-- Start the bag file -->
     <node name="bag_player" pkg="rosbag" type="play" args="-l /home/till/catkin_ws/bag_files/withoutpointcloud.bag"/>
@@ -12,6 +12,6 @@
     <node name="stream_consumer" pkg="edge_detection" type="stream_consumer.py" output="screen"/>
 
     <!-- Start rviz programm to display image-->
-    <node  if="$(arg_open_rviz)" name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+    <node  if="$(arg open_rviz)" name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
 
 </launch>
