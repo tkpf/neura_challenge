@@ -36,6 +36,7 @@ They can be started via the command:
 
 '''bash
 roslaunch edge_detection <launch-file.launch>
+'''
 
 #### edge_detection_with_local_file.launch
 Starts two nodes based on python scripts, namely:
