@@ -3,22 +3,6 @@
 from cv_bridge import CvBridge
 from edge_detection.srv import EdgeDetection, EdgeDetectionResponse
 
-def detect_edges_in_image(img_in_cvformat):
-    bridge = CvBridge()
-    imgmsg = bridge.cv2_to_imgmsg(img_in_cvformat)
-    print("File converted to cv format. Waiting for Service.")
-    rospy.wait_for_service("edge_detection")
-    print("Service found.")
-    try:
-        vision_processing_srv = rospy.ServiceProxy('edge_detection', EdgeDetection)
-        print("Calling Service...")
-        #resp = vision_processing_srv(imgmsg)
-        print("Service response received.")
-        #img_analyzed = bridge.imgmsg_to_cv2(resp.img)
-        #return img_analyzed
-    except rospy.ServiceException as e:
-        print("Service call failed: %s"%e)
-
 
 def broker(imgmsg):
     print("Waiting for Service.")
@@ -41,9 +25,8 @@ def broker(imgmsg):
 # TODO eg starting analyzing of 3d points in new thread to be more efficient
 
 # TODO make new window für jede node
-# TODO bild is not displayed properly (edged_image)
-
-
+# TODO debugging log
+# TODO make bag file a variable in launch file
 
 import rospy
 import cv2 as cv
@@ -120,12 +103,15 @@ def edged_image_callback(data):
     if cur_depth_image is not None:
         points_3d = construct_3d_points(edges_coordinates, cur_depth_image, calibration_matrix_color, calibration_matrix_depth)
         point_cloud = PointCloud()
-        point_cloud.header = Header()
+        #set header
+        point_cloud.header = data.header
+        # convert to point cloud points using lambda function
         convert_points = lambda p: Point32(*p)
         point_cloud.points = list(map(convert_points, points_3d))
         point_3d_publisher.publish(point_cloud)
 
 # TODO threading, wait for image data to drop in
+# TODO header comparission and saving
 def depth_image_callback(data):
     global cur_depth_image
     cur_depth_image = CvBridge().imgmsg_to_cv2(data)
