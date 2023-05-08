@@ -72,7 +72,8 @@ find_package(catkin REQUIRED COMPONENTS
  generate_messages(
    DEPENDENCIES
    sensor_msgs
-   geometry_msgs#   std_msgs
+   geometry_msgs
+   std_msgs
  )
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -106,7 +107,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES vision_processing
-  CATKIN_DEPENDS cv_bridge rospy sensor_msgs geometry_msgs
+  CATKIN_DEPENDS cv_bridge rospy sensor_msgs geometry_msgs std_msgs
 #  DEPENDS system_lib
 )
 

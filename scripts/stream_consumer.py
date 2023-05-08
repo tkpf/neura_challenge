@@ -46,7 +46,8 @@ def broker(imgmsg):
 
 import rospy
 import cv2 as cv
-from sensor_msgs.msg import Image, CameraInfo, PointCloud, Header
+from sensor_msgs.msg import Image, CameraInfo, PointCloud
+from std_msgs.msg import Header
 from geometry_msgs.msg import Point32
 import numpy as np
 
