@@ -47,6 +47,7 @@ EDGE_POINTS_3D_TOPIC = '/edge_detection/edge_points'
 # TODO check if high and width equals resolution etc
 # TODO what does depth value mean??
 
+# TODO frame id, where is the sensor mounted? transform!!
 cur_depth_image = None
 calibration_matrix_color = None
 calibration_matrix_depth = None
