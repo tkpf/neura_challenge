@@ -46,8 +46,8 @@ def broker(imgmsg):
 
 import rospy
 import cv2 as cv
-from sensor_msgs.msg import Image, CameraInfo
-from geometry_msgs.msg import Point
+from sensor_msgs.msg import Image, CameraInfo, PointCloud, Header
+from geometry_msgs.msg import Point32
 import numpy as np
 
 # from detector_client import detect_edges_in_image
@@ -66,7 +66,10 @@ calibration_matrix_color = None
 calibration_matrix_depth = None
 
 edged_image_publisher = rospy.Publisher(IMAGE_EDGED_TOPIC, Image, queue_size =5)
-point_3d_publisher = rospy.Publisher(EDGE_POINTS_3D_TOPIC, Point, queue_size =3)
+point_3d_publisher = rospy.Publisher(EDGE_POINTS_3D_TOPIC, PointCloud, queue_size =3)
+
+# TODO link frame_id of streams
+# TODO set time etc., what happens when bridge is used?
 
 #TODO more efficient by passing whole image array at once, due to matrix operations this remains the same
 def construct_3d_points(points_2d, img_depth, K_color, K_depth):
@@ -112,9 +115,12 @@ def edged_image_callback(data):
     print(edges_coordinates)
     #edges_coordinates = [list(i) for i in edges_coordinates]
     if cur_depth_image is not None:
-        print("Test")
         points_3d = construct_3d_points(edges_coordinates, cur_depth_image, calibration_matrix_color, calibration_matrix_depth)
-        print(points_3d[20])
+        point_cloud = PointCloud()
+        point_cloud.header = Header()
+        convert_points = lambda p: Point32(*p)
+        point_cloud.points = list(map(convert_points, points_3d))
+        point_3d_publisher.publish(point_cloud)
 
 # TODO threading, wait for image data to drop in
 def depth_image_callback(data):
