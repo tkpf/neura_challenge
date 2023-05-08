@@ -3,6 +3,7 @@
 ## Overview
 Task *1 Basic* as well as *Task 2 Vision_ROS* was attempted and completed. The programming language used is python. 
 The package structure is build upon the given edge_detection directory. Its final structure is as follows:
+```
 -- edge_detection/
     |
     -- data/
@@ -25,7 +26,7 @@ The package structure is build upon the given edge_detection directory. Its fina
     -- CMakeLists.txt
     -- package.xml
     -- README.md
-    
+```
 The package 'edge_detection' must be build via command TODO
 
 ### Launch
@@ -34,9 +35,9 @@ The 'edge_detection_with_local_file.launch' file corresponds to the task in *1. 
 
 They can be started via the command:
 
-'''bash
+```bash
 roslaunch edge_detection <launch-file.launch>
-'''
+```
 
 #### edge_detection_with_local_file.launch
 Starts two nodes based on python scripts, namely:
