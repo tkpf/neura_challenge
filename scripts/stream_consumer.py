@@ -13,7 +13,6 @@ def broker(imgmsg):
         print("Calling Service...")
         resp = vision_processing_srv(imgmsg)
         print("Service response received.")
-        print(f"This is the image header2:\n{req.img.header}")
         # publish on new topic
         print(f"Image with detected edges published to topic {IMAGE_EDGED_TOPIC}")
         edged_image_publisher.publish(resp.img)
