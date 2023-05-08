@@ -1,5 +1,5 @@
 <launch>
-    <arg name="file" default="/home/till/catkin_ws/src/edge_detection/data/Image_1.png" />
+    <arg name="file" default="$(find edge_detection)/data/Image_1.png" />
     <!-- Start the edge_detector.py script -->
     <node name="edge_detector" pkg="edge_detection" type="edge_detector.py" output="screen"/>
 

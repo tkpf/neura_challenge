@@ -40,6 +40,7 @@ import numpy as np
 IMAGE_COLOR_STREAM_TOPIC = '/camera/color/image_raw'
 IMAGE_DEPTH_STREAM_TOPIC = '/camera/depth/image_rect_raw'
 IMAGE_COLOR_CAMERA_INFO_TOPIC = '/camera/color/camera_info'
+IMAGE_DEPTH_CAMERA_INFO_TOPIC ='/camera/depth/camera_info'
 IMAGE_EDGED_TOPIC = '/edge_detection/edged_image'
 EDGE_POINTS_3D_TOPIC = '/edge_detection/edge_points'
 
@@ -147,7 +148,7 @@ def camera_color_intrinistics_listener():
 
 def camera_depth_intrinistics_listener():
     # init and subscribe
-    rospy.Subscriber(IMAGE_COLOR_CAMERA_INFO_TOPIC, CameraInfo, camera_depth_intrinistics_callback)
+    rospy.Subscriber(IMAGE_DEPTH_CAMERA_INFO_TOPIC, CameraInfo, camera_depth_intrinistics_callback)
 
 def edged_image_consumer():
     rospy.Subscriber(IMAGE_EDGED_TOPIC, Image, edged_image_callback)
