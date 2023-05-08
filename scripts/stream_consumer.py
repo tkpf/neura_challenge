@@ -5,7 +5,7 @@ from edge_detection.srv import EdgeDetection, EdgeDetectionResponse
 
 def detect_edges_in_image(img_in_cvformat):
     bridge = CvBridge()
-    imgmsg = bridge.cv2_to_imgmsg(img_in_cvformat, encoding="rgb8")
+    imgmsg = bridge.cv2_to_imgmsg(img_in_cvformat)
     print("File converted to cv format. Waiting for Service.")
     rospy.wait_for_service("edge_detection")
     print("Service found.")
@@ -40,7 +40,8 @@ def broker(imgmsg):
 
 # TODO eg starting analyzing of 3d points in new thread to be more efficient
 
-
+# TODO make new window für jede node
+# TODO bild is not displayed properly (edged_image)
 
 
 
@@ -61,6 +62,7 @@ EDGE_POINTS_3D_TOPIC = '/edge_detection/edge_points'
 
 #TODO camera info of depth image necessary? or rectified because of topic name?
 # TODO check if high and width equals resolution etc
+# TODO what does depth value mean??
 
 cur_depth_image = None
 calibration_matrix_color = None
