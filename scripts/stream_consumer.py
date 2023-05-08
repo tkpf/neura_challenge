@@ -110,6 +110,7 @@ def edged_image_callback(data):
         point_cloud.points = list(map(convert_points, points_3d))
         point_3d_publisher.publish(point_cloud)
 
+# TODO For frame [camera_color_optical_frame]: Fixed Frame [map] does not exist
 # TODO threading, wait for image data to drop in
 # TODO header comparission and saving
 def depth_image_callback(data):

@@ -23,6 +23,7 @@ def detection_service_callback(req):
     processed_img_in_cvformat = detect_edges_canny(img_in_cvformat)
     processed_imgmsg = bridge.cv2_to_imgmsg(processed_img_in_cvformat, encoding='rgb8')
     # set header
+    print(f"This is the image header:\n{req.img.header}")
     processed_imgmsg.header = req.img.header
     return EdgeDetectionResponse(processed_imgmsg)
 
