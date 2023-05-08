@@ -104,7 +104,7 @@ def edged_image_callback(data):
         points_3d = construct_3d_points(edges_coordinates, cur_depth_image, calibration_matrix_color, calibration_matrix_depth)
         point_cloud = PointCloud()
         #set header
-        point_cloud.header = data.header
+        point_cloud.header = Header()# data.header
         # convert to point cloud points using lambda function
         convert_points = lambda p: Point32(*p)
         point_cloud.points = list(map(convert_points, points_3d))
