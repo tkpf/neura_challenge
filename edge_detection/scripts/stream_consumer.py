@@ -42,8 +42,9 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
         K_color (3x3 np.array): Calibration matrix for color camera used to capture points_2d.
         K_depth (3x3 np.array): Calibration matrix for depth camera used to capture img_depth. 
     """
-
-
+    temp = points_2d
+    print("Max value:" + np.max(temp.flatten()))
+    rospy.loginfo("")
     # calibration matrices are different for color and depth camera 
     # thus project first to image plane, then check for correspondent depth
     # TODO what is depth, which values does it take?
@@ -60,7 +61,7 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     # get correspondent point in depth camera
     h_points_2d_depth_corespondence = K_depth @ h_points_2d_color_undistorted
     h_points_2d_depth_corespondence = h_points_2d_depth_corespondence / h_points_2d_depth_corespondence[-1, :]
-    h_points_2d_depth_corespondence = np.floor(h_points_2d_depth_corespondence).astype(int) #if round, then there might be a error with max indice in img_depth bc out of range
+    h_points_2d_depth_corespondence = np.round(h_points_2d_depth_corespondence).astype(int) #if round, then there might be a error with max indice in img_depth bc out of range??
     depth = [img_depth[tuple(i)] for i in h_points_2d_depth_corespondence[:2,:].T]
     # corresponds to homogenous 3D point on projection plan given inverse depth as 4th entry
     points_3d = h_points_2d_color_undistorted * depth
