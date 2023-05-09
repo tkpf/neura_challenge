@@ -71,10 +71,10 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     depth = [img_depth[tuple(i)] for i in correspondence_points_cut_off]
     # corresponds to homogenous 3D point on projection plan given inverse depth as 4th entry
     depth = np.array(depth)
-    c_p = np.array(c_p)
+    c_p = np.array(final_points_2d)
     print(depth.shape)
     print(c_p.shape)
-    points_3d = c_p * depth
+    points_3d = final_points_2d * depth
     points_3d = points_3d
     assert(points_3d.shape[0] == 3)
     return points_3d.T
