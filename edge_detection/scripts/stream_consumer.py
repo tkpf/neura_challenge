@@ -120,7 +120,7 @@ class Stream_Consumer:
         edges_coordinates = np.array(np.argwhere(edges_coordinates[:,:,0]))
         rospy.logdebug("Edge coordinates found")#: \n" + edges_coordinates)
         if self.cur_depth_image is not None:
-            points_3d = construct_3d_points(edges_coordinates, cur_depth_image, calibration_matrix_color, calibration_matrix_depth)
+            points_3d = construct_3d_points(edges_coordinates, self.cur_depth_image, self.calibration_matrix_color, self.calibration_matrix_depth)
             point_cloud = PointCloud()
             #set header
             point_cloud.header =data.header
