@@ -26,9 +26,9 @@ class Edge_Detection_Service:
     # TODO set encodings
     def detection_service_callback(self, req):
         rospy.logdebug("New edge detection callback received.")
-        img_in_cvformat = self.bridge.imgmsg_to_cv2(req.img)
+        img_in_cvformat = self.cv_bridge.imgmsg_to_cv2(req.img)
         processed_img_in_cvformat = self.detect_edges_canny(img_in_cvformat)
-        processed_imgmsg = self.bridge.cv2_to_imgmsg(processed_img_in_cvformat, encoding='rgb8')
+        processed_imgmsg = self.cv_bridge.cv2_to_imgmsg(processed_img_in_cvformat, encoding='rgb8')
         # set header
         processed_imgmsg.header = req.img.header
         return EdgeDetectionResponse(processed_imgmsg)
