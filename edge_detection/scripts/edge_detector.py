@@ -25,7 +25,7 @@ class Edge_Detection_Service:
 
     # TODO set encodings
     def detection_service_callback(self, req):
-        rospy.logdebug("New edge detection callback received. Payload:\n" + req.img)
+        rospy.logdebug("New edge detection callback received.")
         img_in_cvformat = self.bridge.imgmsg_to_cv2(req.img)
         processed_img_in_cvformat = self.detect_edges_canny(img_in_cvformat)
         processed_imgmsg = self.bridge.cv2_to_imgmsg(processed_img_in_cvformat, encoding='rgb8')
@@ -43,7 +43,6 @@ class Edge_Detection_Service:
         gray = np.float32(gray)
 
         dst = cv.cornerHarris(gray,3,5,0.04) # experiment with parameters, default values 2, 3, 0.04
-        print(np.shape(dst))
         count = np.count_nonzero(dst>0.12*dst.max())
         rospy.logdebug("Edges found in " + count +  " pixels.")
 
