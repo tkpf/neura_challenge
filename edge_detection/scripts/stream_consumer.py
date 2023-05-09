@@ -43,7 +43,7 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
         K_depth (3x3 np.array): Calibration matrix for depth camera used to capture img_depth. 
     """
     temp = points_2d
-    print("Max value:" + np.max(temp.flatten()))
+    print("Max value:" + str(np.max(temp.flatten())))
     rospy.loginfo("")
     # calibration matrices are different for color and depth camera 
     # thus project first to image plane, then check for correspondent depth
