@@ -60,8 +60,6 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     h_points_2d_depth_corespondence = np.round(h_points_2d_depth_corespondence).astype(int)
     # cut off indices which are out off bounds due to transformation
     correspondence_points_cut_off = []
-    print(img_depth)
-    print(img_depth.shape)
     (max_h, max_w) = img_depth.shape
     for p in h_points_2d_depth_corespondence[:2,:].T:
             if 0 <= p[0] < max_h and 0 <= p[1] < max_w:
@@ -140,7 +138,8 @@ class Stream_Consumer:
                     rospy.logwarn("It is assumed that the depth camera is mounted exactly where the color camera is.")
                 else:
                     rospy.logwarn("Exact position of depth camera is not considered. Camera is at frame_id: %s", cur_depth_imgmsg.header.frame_id)
-                points_3d = construct_3d_points(edges_coordinates, np.array(cur_depth_imgmsg.data), self.calibration_matrix_color, self.calibration_matrix_depth)
+                cur_depth_cvimg = self.bridge.imgmsg_to_cv2(cur_depth_imgmsg.data)
+                points_3d = construct_3d_points(edges_coordinates, cur_depth_imgmsg, self.calibration_matrix_color, self.calibration_matrix_depth)
                 point_cloud = PointCloud()
                 #set header
                 point_cloud.header =data.header
