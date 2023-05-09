@@ -111,3 +111,11 @@ Further Python packages were included:
 - rospy, cv2, numpy, queue
 
 The packages did not need any explizit installation, but came with the installation of ROS Noetic or Ubuntu OS.
+
+## Final View
+When starting the launch file *edge_detection_with_bag_file.launch* the following should be observable:
+ - Rviz window displaying images with detected edges
+ - Stdout Output in starting Console
+ - Data publishing to topic */edge_detetion/edge_points* which can be subsrcibed to from another console by using cmd ```bash rostopic echo /edge_detection/edge_points```
+
+![Example view](docs/screenshot_bag_file_launch.png)
