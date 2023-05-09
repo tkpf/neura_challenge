@@ -138,8 +138,7 @@ class Stream_Consumer:
                     rospy.logwarn("It is assumed that the depth camera is mounted exactly where the color camera is.")
                 else:
                     rospy.logwarn("Exact position of depth camera is not considered. Camera is at frame_id: %s", cur_depth_imgmsg.header.frame_id)
-                print(cur_depth_imgmsg)
-                points_3d = construct_3d_points(edges_coordinates, np.array(cur_depth_imgmsg.img), self.calibration_matrix_color, self.calibration_matrix_depth)
+                points_3d = construct_3d_points(edges_coordinates, np.array(cur_depth_imgmsg.data), self.calibration_matrix_color, self.calibration_matrix_depth)
                 point_cloud = PointCloud()
                 #set header
                 point_cloud.header =data.header
