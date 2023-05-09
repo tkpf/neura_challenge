@@ -133,7 +133,7 @@ class Stream_Consumer:
             a = rospy.Duration.from_sec(0.1)
             timegab = rospy.Duration.from_sec(-999)
             # compare timestamps
-            while (timegab + a) < 0 and not self.depth_imgmsg_queue.empty:
+            while (timegab + a) < rospy.Duration.fom_sec(0) and not self.depth_imgmsg_queue.empty:
                 # depth images too old
                 rospy.logwarn("Depth image too old. Skipping.")
                 cur_depth_imgmsg = self.depth_imgmsg_queue.get()
