@@ -60,7 +60,7 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     # get correspondent point in depth camera
     h_points_2d_depth_corespondence = K_depth @ h_points_2d_color_undistorted
     h_points_2d_depth_corespondence = h_points_2d_depth_corespondence / h_points_2d_depth_corespondence[-1, :]
-    h_points_2d_depth_corespondence = np.round(h_points_2d_depth_corespondence).astype(int)
+    h_points_2d_depth_corespondence = np.floor(h_points_2d_depth_corespondence).astype(int) #if round, then there might be a error with max indice in img_depth bc out of range
     depth = [img_depth[tuple(i)] for i in h_points_2d_depth_corespondence[:2,:].T]
     # corresponds to homogenous 3D point on projection plan given inverse depth as 4th entry
     points_3d = h_points_2d_color_undistorted * depth
