@@ -27,7 +27,10 @@ The package structure is build upon the given edge_detection directory. Its fina
     -- package.xml
     -- README.md
 ```
-The package 'edge_detection' must be build via command TODO
+The package 'edge_detection' can be pulled from github in a catkin workspace src folder e.g. */catkin_ws/src*. After the command *catkin_make* the launch files can be executed.
+TODO specifiy bag file in launch file or via argument!
+TODO source file. 
+TODO still some error when starting
 
 ### Launch
 The launch directory contains two launch files.  
@@ -103,3 +106,5 @@ The following ROS packages where used:
 - sensor_msgs
 
 They are declared in both, *package.xml* and CMakeLists.txt*
+
+##

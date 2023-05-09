@@ -29,21 +29,18 @@ def detect_edges_in_image(img_in_cvformat):
 if __name__ == "__main__":
     try:
         filepath = sys.argv[1]
-        print("Search for file at location %s.")
+        rospy.loginfo("Search for file at location %s.", filepath)
         img = cv.imread(filepath)
-        print("File found and read!")
+        rospy.loginfo("File found and read!")
     except Exception as e:
-        print("There was something wrong with the arguments provided. Imagefile could not be read.\n" %e)
-        print("Aborting...")
+        rospy.loginfo("There was something wrong with the arguments provided. Imagefile could not be read.\n" %e)
+        rospy.loginfo("Aborting...")
         sys.exit()
 
-    print("Ready to process file!")
+    rospy.loginfo("Ready to process file!")
     img_enriched = detect_edges_in_image(img)
 
-    print("Show Image...")
-    # cv.imshow('Analyzed_img',img_enriched)
-    # cv.waitKey(3000) # delay for 5000 ms (5 seconds)
-    # cv.destroyAllWindows()
+    rospy.loginfont("Show Image...")
     cv.imshow('Analyzed_Img',img_enriched)
     if cv.waitKey(0) & 0xff == 27:
         cv.destroyAllWindows()
