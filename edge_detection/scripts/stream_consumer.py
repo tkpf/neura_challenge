@@ -3,9 +3,6 @@
 from cv_bridge import CvBridge
 from edge_detection.srv import EdgeDetection, EdgeDetectionResponse
 
-
-
-
 # TODO eg starting analyzing of 3d points in new thread to be more efficient
 
 # TODO make new window für jede node
@@ -34,7 +31,19 @@ EDGE_POINTS_3D_TOPIC = '/edge_detection/edge_points'
 
 # TODO frame id, where is the sensor mounted? transform!!
 
+
 def construct_3d_points(points_2d, img_depth, K_color, K_depth):
+    """
+    Constructs 3d points given 2d point image coordinates, a depth image and calibration matrices for both cameras
+
+    Args:
+        points_2d (np.array): Indices of image pixels of which 3d points should be reconstructed
+        img_depth (np.array): Image as numpy array. Pixels representing depth values.
+        K_color (3x3 np.array): Calibration matrix for color camera used to capture points_2d.
+        K_depth (3x3 np.array): Calibration matrix for depth camera used to capture img_depth. 
+    """
+
+
     # calibration matrices are different for color and depth camera 
     # thus project first to image plane, then check for correspondent depth
     # TODO what is depth, which values does it take?
@@ -60,6 +69,10 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     return points_3d.T
 
 class Stream_Consumer:
+    '''
+    Bundles all Subscribers and Publishers active in edge detection with the given bag file. 
+    '''
+
     # init
     def __init__(self):
         rospy.Subscriber(IMAGE_COLOR_STREAM_TOPIC, Image, self.color_image_callback)
