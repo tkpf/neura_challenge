@@ -106,9 +106,9 @@ Publishers to the following topics are set up:
 - /edge_detection/edged_image
 - /edge_detection/edge_points
 
-The new publishing topics publish *sensor_msgs/Image* and *sensor_msgs.msg/PointCloud* messages, respectively.
+The new publishing topics publish *sensor_msgs/Image* and *sensor_msgs/PointCloud* messages, respectively.
 
-An **eged_image** (Image) represents a camera image from the */camera/color/image_raw* topic, which was analyzed using the *edge_detector.py* node from task 1. *broker(imgmsg)* takes care of calling the edge_detector service and publishing the analyzed image afterwards.  
+An **eged_image** (Image) represents a camera image from the */camera/color/image_raw* topic, which was analyzed using the *edge_detector.py* node from task 1. Function *broker(imgmsg)* takes care of calling the edge_detector service and publishing the analyzed image afterwards.  
 The **edge_points** (PointCloud) are calculated using homogenous coordinate transformation in function *construct_3d_points(..)*. The numpy array of the 3d points is then converted into *geometry_msgs/Point32* objectes which then get wrapped up in a list, representing the PointCloud points.  
 [TODO] The results of the 3d points should be checked for validity as the function is implemented form scratch. Also the possible translation of the depth camera to the color camera is ignored, because the frame_id linked to the depth camera (*camera_depth_optical_frame*) could not be found in any publishing topic. This may lead to additional errors.
 
