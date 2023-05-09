@@ -28,9 +28,10 @@ The package structure is build upon the given edge_detection directory. Its fina
     -- README.md
 ```
 The package 'edge_detection' can be pulled from github in a catkin workspace src folder e.g. */catkin_ws/src*. After the command *catkin_make* the launch files can be executed.
-TODO specifiy bag file in launch file or via argument!
+TODO specifiy bag file in launch file or via argument! 
 TODO source file. 
 TODO still some error when starting
+TODO roscore
 
 ### Launch
 The launch directory contains two launch files.  

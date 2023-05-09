@@ -163,7 +163,7 @@ if __name__ == '__main__':
     except Exception as e:
         rospy.logerr("Error occured when initializing Stream_Consumer:%s\n Aborting...", e)
 
-    print("Keep on spinning...")
+    rospy.logdebug("Keep on spinning...")
     rospy.spin()
     
 
