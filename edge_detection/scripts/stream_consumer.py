@@ -113,11 +113,6 @@ class Stream_Consumer:
             self.edged_image_publisher.publish(resp.img)
         except rospy.ServiceException as e:
             rospy.logerr("Service call failed: %s"%e)
-
-
-# TODO link frame_id of streams
-# TODO set time etc., what happens when bridge is used?
-
     
     def color_image_callback(self, data):
         rospy.logdebug(rospy.get_caller_id() + "Color image received")
@@ -134,7 +129,7 @@ class Stream_Consumer:
             cur_depth_imgmsg = self.depth_imgmsg_queue.get()
             timegab = cur_depth_imgmsg.header.stamp - data.header.stamp
             # compare timestamps
-            while timegab < - a and not self.depth_imgmsg_queue.empty:
+            while timegab < - a and not self.depth_imgmsg_queue.empty():
                 # depth images too old
                 rospy.logwarn("Depth image too old. Skipping.")
 
@@ -159,17 +154,13 @@ class Stream_Consumer:
                 point_cloud.points = list(map(convert_points, points_3d))
                 rospy.logdebug("Publishing new Point cloud...")
                 self.point_3d_publisher.publish(point_cloud)
-            else: rospy.logwarn("Timegab too high between images: %s second(s)", str((cur_depth_imgmsg.header.stamp - data.header.stamp).to_sec()))
+            else: rospy.logwarn("Timegab too high between images: %s second(s)", str(timegab.to_sec()))
         else:
             rospy.logwarn("No depth image in queue waiting. Skipping.")
 
-# TODO For frame [camera_color_optical_frame]: Fixed Frame [map] does not exist
-# TODO threading, wait for image data to drop in
-# TODO header comparission and saving
     def depth_image_callback(self, data):
         self.depth_imgmsg_queue.put(data)
 
-# TODO delete global variables
     def camera_color_intrinistics_callback(self, data):
         # By manually inspection it is clear, that all intrinistic parameters of the camera are given with K
         self.calibration_matrix_color = np.array(data.K).reshape(3,3)
@@ -182,9 +173,6 @@ class Stream_Consumer:
         # calibration parameters are persistent, thus unregister after first retrievment
         # TODO rospy.Subscriber.unregister("camera_depth_intrinistics")
 
-
-# TODO only spin camera_intrinistics_callback until data is fetched once
-# TODO compare timestamps with depth_image and color_image
 
 if __name__ == '__main__':
     rospy.init_node('stream_broker')
