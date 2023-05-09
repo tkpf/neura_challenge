@@ -60,14 +60,18 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     h_points_2d_depth_corespondence = np.round(h_points_2d_depth_corespondence).astype(int)
     # cut off indices which are out off bounds due to transformation
     correspondence_points_cut_off = []
+    final_points_2d = []
     (max_h, max_w) = img_depth.shape
-    for p in h_points_2d_depth_corespondence[:2,:].T:
-            if 0 <= p[0] < max_h and 0 <= p[1] < max_w:
-                correspondence_points_cut_off.append(p)
+    for  (d_p, c_p) in zip(h_points_2d_depth_corespondence[:2,:].T, h_points_2d_color_undistorted.T):
+            if 0 <= d_p[0] < max_h and 0 <= d_p[1] < max_w:
+                correspondence_points_cut_off.append(d_p)
+                final_points_2d.append(c_p)
+
     rospy.logdebug("Points before cut off: %s\nPoints after cut off: %s", points_2d.shape[0], len(correspondence_points_cut_off))
     depth = [img_depth[tuple(i)] for i in correspondence_points_cut_off]
     # corresponds to homogenous 3D point on projection plan given inverse depth as 4th entry
-    points_3d = h_points_2d_color_undistorted * depth
+    points_3d = c_p * depth
+    points_3d = np.array(points_3d)
     assert(points_3d.shape[0] == 3)
     return points_3d.T
 
