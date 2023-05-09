@@ -124,6 +124,7 @@ class Stream_Consumer:
         rospy.logdebug("Edge coordinates found")#: \n" + edges_coordinates)
         if self.cur_depth_imgmsg is not None:
             # compare timestamps
+            print(data.header.stamp)
             if abs(self.cur_depth_imgmsg.header.stamp.secs - data.header.stamp.secs) <= 1:
                 if abs(self.cur_depth_imgmsg.header.stamp.nsec - data.header.stamp.nsec) <= 1**8:
                     # extract translations in between sensors
@@ -146,7 +147,7 @@ class Stream_Consumer:
                     rospy.logdebug("Publishing new Point cloud...")
                     self.point_3d_publisher.publish(point_cloud)
                 else: rospy.logwarn("Timegab too high between images: %s nanosecond(s).", str(self.cur_depth_imgmsg.header.stamp.nsec - data.header.stamp.nsec))
-            else: rospy.logwarn("Timegab too high between images: %s second(s)", str(self.cur_depth_imgmsg.header.stamp.nsec - data.header.stamp.nsec))
+            else: rospy.logwarn("Timegab too high between images: %s second(s)", str(self.cur_depth_imgmsg.header.stamp.sec - data.header.stamp.sec))
         else:
             rospy.logwarn("Still no depth image saved.")
 
