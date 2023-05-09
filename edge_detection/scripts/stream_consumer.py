@@ -130,10 +130,17 @@ class Stream_Consumer:
         edges_coordinates = np.array(np.argwhere(edges_coordinates[:,:,0]))
         rospy.logdebug("Edge coordinates found")#: \n" + edges_coordinates)
         if not self.depth_imgmsg_queue.empty():
-            cur_depth_imgmsg = self.depth_imgmsg_queue.get()
-            # compare timestamps
             a = rospy.Duration.from_sec(0.1)
-            if abs(cur_depth_imgmsg.header.stamp - data.header.stamp) <= a:
+            timegab = rospy.Duration.from_sec(-999)
+            # compare timestamps
+            while (timegab + a) < 0 and not self.depth_imgmsg_queue.empty:
+                # depth images too old
+                rospy.logwarn("Depth image too old. Skipping.")
+                cur_depth_imgmsg = self.depth_imgmsg_queue.get()
+                timegab = cur_depth_imgmsg.header.stamp - data.header.stamp
+
+            if abs(timegab) <= a:
+                #
                 # extract translations in between sensors
                 # depth_camera is bound to 'camera_depth_optical_frame'
                 # color_camera to 'camera_color_optical_frame'
@@ -155,7 +162,7 @@ class Stream_Consumer:
                 self.point_3d_publisher.publish(point_cloud)
             else: rospy.logwarn("Timegab too high between images: %s second(s)", str((cur_depth_imgmsg.header.stamp - data.header.stamp).to_sec()))
         else:
-            rospy.logwarn("Still no depth image saved.")
+            rospy.logwarn("No depth image in queue waiting. Skipping.")
 
 # TODO For frame [camera_color_optical_frame]: Fixed Frame [map] does not exist
 # TODO threading, wait for image data to drop in
