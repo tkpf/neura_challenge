@@ -145,7 +145,7 @@ class Stream_Consumer:
                 point_cloud.points = list(map(convert_points, points_3d))
                 rospy.logdebug("Publishing new Point cloud...")
                 self.point_3d_publisher.publish(point_cloud)
-            else: rospy.logwarn("Timegab too high between images: %s second(s)", str(self.cur_depth_imgmsg.header.stamp - data.header.stamp))
+            else: rospy.logwarn("Timegab too high between images: %s second(s)", str((self.cur_depth_imgmsg.header.stamp - data.header.stamp).to_sec()))
         else:
             rospy.logwarn("Still no depth image saved.")
 
