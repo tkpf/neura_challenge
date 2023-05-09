@@ -60,6 +60,8 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     h_points_2d_depth_corespondence = np.round(h_points_2d_depth_corespondence).astype(int)
     # cut off indices which are out off bounds due to transformation
     correspondence_points_cut_off = []
+    print(img_depth)
+    print(img_depth.shape)
     (max_h, max_w) = img_depth.shape
     for p in h_points_2d_depth_corespondence[:2,:].T:
             if 0 <= p[0] < max_h and 0 <= p[1] < max_w:
