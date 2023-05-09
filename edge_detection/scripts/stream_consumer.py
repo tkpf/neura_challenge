@@ -70,10 +70,8 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     rospy.logdebug("Points before cut off: %s\nPoints after cut off: %s", points_2d.shape[0], len(correspondence_points_cut_off))
     depth = [img_depth[tuple(i)] for i in correspondence_points_cut_off]
     # corresponds to homogenous 3D point on projection plan given inverse depth as 4th entry
-    depth = np.array(depth)
+    depth = np.array(depth).reshape(-1, 1)
     c_p = np.array(final_points_2d)
-    print(depth.shape)
-    print(c_p.shape)
     points_3d = final_points_2d * depth
     points_3d = points_3d
     assert(points_3d.shape[0] == 3)
