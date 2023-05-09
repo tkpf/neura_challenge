@@ -139,7 +139,7 @@ class Stream_Consumer:
                 else:
                     rospy.logwarn("Exact position of depth camera is not considered. Camera is at frame_id: %s", cur_depth_imgmsg.header.frame_id)
 
-                points_3d = construct_3d_points(edges_coordinates, np.array(cur_depth_imgmsg), self.calibration_matrix_color, self.calibration_matrix_depth)
+                points_3d = construct_3d_points(edges_coordinates, np.array(cur_depth_imgmsg.img), self.calibration_matrix_color, self.calibration_matrix_depth)
                 point_cloud = PointCloud()
                 #set header
                 point_cloud.header =data.header
