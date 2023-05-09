@@ -47,13 +47,12 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     # calibration matrices are different for color and depth camera 
     # thus project first to image plane, then check for correspondent depth
     # TODO what is depth, which values does it take?
-    print(f"2dshape : {points_2d.shape}")
-    print(f"img_depth : {img_depth.shape}")
+    rospy.logdebug(f"2dshape : {points_2d.shape}")
+    rospy.logdebug(f"img_depth : {img_depth.shape}")
     assert(points_2d.shape[1] == 2)
     assert(K_color.shape == (3,3) and K_depth.shape == (3,3))
     h_points_2d_color = np.concatenate((points_2d, np.full((points_2d.shape[0], 1), 1)), axis=1).T
-    print(f"h_2dshape : {h_points_2d_color.shape}")
-
+    rospy.logdebug(f"h_2dshape : {h_points_2d_color.shape}")
     assert(h_points_2d_color.shape[0] == 3)
     # undistort by calibration matrix
     h_points_2d_color_undistorted = np.linalg.inv(K_color) @ h_points_2d_color
@@ -111,7 +110,7 @@ class Stream_Consumer:
 
     
     def color_image_callback(self, data):
-        rospy.loginfo(rospy.get_caller_id() + "Color image received: %s", data.data)
+        rospy.logdebug(rospy.get_caller_id() + "Color image received")
         enriched_img = self.broker(data)
 
     def edged_image_callback(self, data):
@@ -119,7 +118,7 @@ class Stream_Consumer:
         img_in_cvformat = self.bridge.imgmsg_to_cv2(data)
         edges_coordinates = (img_in_cvformat == [0, 255, 0])
         edges_coordinates = np.array(np.argwhere(edges_coordinates[:,:,0]))
-        rospy.logdebug("Edge coordinates found: \n" + edges_coordinates)
+        rospy.logdebug("Edge coordinates found")#: \n" + edges_coordinates)
         if self.cur_depth_image is not None:
             points_3d = construct_3d_points(edges_coordinates, cur_depth_image, calibration_matrix_color, calibration_matrix_depth)
             point_cloud = PointCloud()
