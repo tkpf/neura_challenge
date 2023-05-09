@@ -124,8 +124,8 @@ class Stream_Consumer:
         rospy.logdebug("Edge coordinates found")#: \n" + edges_coordinates)
         if self.cur_depth_imgmsg is not None:
             # compare timestamps
-            if abs(self.cur_depth_imgmsg.stamp.secs - data.stamp.secs) <= 1:
-                if abs(self.cur_depth_imgmsg.stamp.nsec - data.stamp.nsec) <= 1**8:
+            if abs(self.cur_depth_imgmsg.header.stamp.secs - data.header.stamp.secs) <= 1:
+                if abs(self.cur_depth_imgmsg.header.stamp.nsec - data.header.stamp.nsec) <= 1**8:
                     # extract translations in between sensors
                     # depth_camera is bound to 'camera_depth_optical_frame'
                     # color_camera to 'camera_color_optical_frame'
