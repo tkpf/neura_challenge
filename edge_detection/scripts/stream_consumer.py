@@ -130,11 +130,11 @@ class Stream_Consumer:
                     # depth_camera is bound to 'camera_depth_optical_frame'
                     # color_camera to 'camera_color_optical_frame'
                     # via cmd 'rostopic echo /tf_static | grep camera_color_optical_frame' no information was found!
-                    if self.cur_depth_imgmsg.frame_id == "camera_depth_optical_frame":
-                        rospy.logwarn("Frame id %s could not be find in topic /tf or /tf_static by manual inspeciton.", self.cur_depth_imgmsg.frame_id)
+                    if self.cur_depth_imgmsg.header.frame_id == "camera_depth_optical_frame":
+                        rospy.logwarn("Frame id %s could not be find in topic /tf or /tf_static by manual inspeciton.", self.cur_depth_imgmsg.header.frame_id)
                         rospy.logwarn("It is assumed that the depth camera is mounted exactly where the color camera is.")
                     else:
-                        rospy.logwarn("Exact position of depth camera is not considered. Camera is at frame_id: %s", self.cur_depth_imgmsg.frame_id)
+                        rospy.logwarn("Exact position of depth camera is not considered. Camera is at frame_id: %s", self.cur_depth_imgmsg.header.frame_id)
 
                     points_3d = construct_3d_points(edges_coordinates, self.cur_depth_image, self.calibration_matrix_color, self.calibration_matrix_depth)
                     point_cloud = PointCloud()
@@ -145,8 +145,8 @@ class Stream_Consumer:
                     point_cloud.points = list(map(convert_points, points_3d))
                     rospy.logdebug("Publishing new Point cloud...")
                     self.point_3d_publisher.publish(point_cloud)
-                else: rospy.logwarn("Timegab too high between images: %s nanosecond(s).", str(self.cur_depth_imgmsg.stamp.nsec - data.stamp.nsec))
-            else: rospy.logwarn("Timegab too high between images: %s second(s)", str(self.cur_depth_imgmsg.stamp.nsec - data.stamp.nsec))
+                else: rospy.logwarn("Timegab too high between images: %s nanosecond(s).", str(self.cur_depth_imgmsg.header.stamp.nsec - data.header.stamp.nsec))
+            else: rospy.logwarn("Timegab too high between images: %s second(s)", str(self.cur_depth_imgmsg.header.stamp.nsec - data.header.stamp.nsec))
         else:
             rospy.logwarn("Still no depth image saved.")
 
