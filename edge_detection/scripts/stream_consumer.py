@@ -9,6 +9,7 @@ from sensor_msgs.msg import Image, CameraInfo, PointCloud
 from std_msgs.msg import Header
 from geometry_msgs.msg import Point32
 import numpy as np
+from queue import Queue
 
 IMAGE_COLOR_STREAM_TOPIC = '/camera/color/image_raw'
 IMAGE_DEPTH_STREAM_TOPIC = '/camera/depth/image_rect_raw'
@@ -83,11 +84,12 @@ class Stream_Consumer:
         rospy.Subscriber(IMAGE_DEPTH_CAMERA_INFO_TOPIC, CameraInfo, self.camera_depth_intrinistics_callback)
         rospy.Subscriber(IMAGE_EDGED_TOPIC, Image, self.edged_image_callback)
 
-        self.cur_depth_imgmsg = None
         self.calibration_matrix_color = None
         self.calibration_matrix_depth = None
 
         self.bridge = CvBridge()
+        self.depth_imgmsg_queue = Queue()
+
         self.edged_image_publisher = rospy.Publisher(IMAGE_EDGED_TOPIC, Image, queue_size =5)
         self.point_3d_publisher = rospy.Publisher(EDGE_POINTS_3D_TOPIC, PointCloud, queue_size =3)
 
@@ -122,21 +124,22 @@ class Stream_Consumer:
         edges_coordinates = (img_in_cvformat == [0, 255, 0])
         edges_coordinates = np.array(np.argwhere(edges_coordinates[:,:,0]))
         rospy.logdebug("Edge coordinates found")#: \n" + edges_coordinates)
-        if self.cur_depth_imgmsg is not None:
+        if not self.depth_imgmsg_queue.empty():
+            cur_depth_imgmsg = self.depth_imgmsg_queue.get()
             # compare timestamps
             a = rospy.Duration.from_sec(0.1)
-            if abs(self.cur_depth_imgmsg.header.stamp - data.header.stamp) <= a:
+            if abs(cur_depth_imgmsg.header.stamp - data.header.stamp) <= a:
                 # extract translations in between sensors
                 # depth_camera is bound to 'camera_depth_optical_frame'
                 # color_camera to 'camera_color_optical_frame'
                 # via cmd 'rostopic echo /tf_static | grep camera_color_optical_frame' no information was found!
-                if self.cur_depth_imgmsg.header.frame_id == "camera_depth_optical_frame":
-                    rospy.logwarn("Frame id %s could not be find in topic /tf or /tf_static by manual inspeciton.", self.cur_depth_imgmsg.header.frame_id)
+                if cur_depth_imgmsg.header.frame_id == "camera_depth_optical_frame":
+                    rospy.logwarn("Frame id %s could not be find in topic /tf or /tf_static by manual inspeciton.", cur_depth_imgmsg.header.frame_id)
                     rospy.logwarn("It is assumed that the depth camera is mounted exactly where the color camera is.")
                 else:
-                    rospy.logwarn("Exact position of depth camera is not considered. Camera is at frame_id: %s", self.cur_depth_imgmsg.header.frame_id)
+                    rospy.logwarn("Exact position of depth camera is not considered. Camera is at frame_id: %s", cur_depth_imgmsg.header.frame_id)
 
-                points_3d = construct_3d_points(edges_coordinates, self.cur_depth_image, self.calibration_matrix_color, self.calibration_matrix_depth)
+                points_3d = construct_3d_points(edges_coordinates, cur_depth_imgmsg, self.calibration_matrix_color, self.calibration_matrix_depth)
                 point_cloud = PointCloud()
                 #set header
                 point_cloud.header =data.header
@@ -145,7 +148,7 @@ class Stream_Consumer:
                 point_cloud.points = list(map(convert_points, points_3d))
                 rospy.logdebug("Publishing new Point cloud...")
                 self.point_3d_publisher.publish(point_cloud)
-            else: rospy.logwarn("Timegab too high between images: %s second(s)", str((self.cur_depth_imgmsg.header.stamp - data.header.stamp).to_sec()))
+            else: rospy.logwarn("Timegab too high between images: %s second(s)", str((cur_depth_imgmsg.header.stamp - data.header.stamp).to_sec()))
         else:
             rospy.logwarn("Still no depth image saved.")
 
@@ -153,7 +156,7 @@ class Stream_Consumer:
 # TODO threading, wait for image data to drop in
 # TODO header comparission and saving
     def depth_image_callback(self, data):
-        self.cur_depth_imgmsg = data
+        self.depth_imgmsg_queue.put(data)
 
 # TODO delete global variables
     def camera_color_intrinistics_callback(self, data):
