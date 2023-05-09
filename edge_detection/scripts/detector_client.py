@@ -11,18 +11,18 @@ from edge_detection.srv import EdgeDetection, EdgeDetectionResponse
 def detect_edges_in_image(img_in_cvformat):
     bridge = CvBridge()
     imgmsg = bridge.cv2_to_imgmsg(img_in_cvformat, encoding="rgb8")
-    print("File converted to cv format. Waiting for Service.")
+    rospy.loginfo("File converted to cv format. Waiting for Service.")
     rospy.wait_for_service("edge_detection")
-    print("Service found.")
+    rospy.loginfo("Service found.")
     try:
         vision_processing_srv = rospy.ServiceProxy('edge_detection', EdgeDetection)
-        print("Calling Service...")
+        rospy.loginfo("Calling Service...")
         resp = vision_processing_srv(imgmsg)
-        print("Service response received.")
+        rospy.loginfo("Service response received.")
         img_analyzed = bridge.imgmsg_to_cv2(resp.img)
         return img_analyzed
     except rospy.ServiceException as e:
-        print("Service call failed: %s"%e)
+        rospy.logerr("Service call failed: %s"%e)
 
 
 
@@ -33,11 +33,10 @@ if __name__ == "__main__":
         img = cv.imread(filepath)
         rospy.loginfo("File found and read!")
     except Exception as e:
-        rospy.loginfo("There was something wrong with the arguments provided. Imagefile could not be read.\n" %e)
-        rospy.loginfo("Aborting...")
+        rospy.logerr("There was something wrong with the arguments provided. Imagefile could not be read.\n" %e)
+        rospy.logerr("Aborting...")
         sys.exit()
 
-    rospy.loginfo("Ready to process file!")
     img_enriched = detect_edges_in_image(img)
 
     rospy.loginfont("Show Image...")
