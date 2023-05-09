@@ -10,13 +10,19 @@ The package structure is build upon the given edge_detection directory. Its fina
         |
         -- IMAGE_1.png
         -- ..
+    -- docs/
+        |
+        --screenshot_bag_file_launch.png
+        --screenshot_local_file_launch.png
     -- launch/
         |
         -- edge_detection_with_bag_file.launch
         -- edge_detection_with_local_file.launch
     -- rviz/
+        |
         -- urdf.rviz
     -- scripts/
+        |
         -- detector_client.py
         -- edge_detector.py
         -- stream_consumer.py
@@ -25,7 +31,7 @@ The package structure is build upon the given edge_detection directory. Its fina
         --EdgeDetection.srv
     -- CMakeLists.txt
     -- package.xml
-    -- README.md
+-- README.md
 ```
 The package 'edge_detection' can be pulled from github in a catkin workspace src folder e.g. */catkin_ws/src*. After the command *catkin_make* the launch files can be executed.
 TODO specifiy bag file in launch file or via argument! 
@@ -118,4 +124,4 @@ When starting the launch file *edge_detection_with_bag_file.launch* the followin
  - Stdout Output in starting Console
  - Data publishing to topic */edge_detetion/edge_points* which can be subsrcibed to from another console by using cmd ```bash rostopic echo /edge_detection/edge_points```
 
-![Example view](docs/screenshot_bag_file_launch.png)
+![Example view](edge_detection/docs/screenshot_bag_file_launch.png)
