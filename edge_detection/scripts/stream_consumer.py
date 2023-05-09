@@ -124,6 +124,7 @@ class Stream_Consumer:
         rospy.logdebug("Edge coordinates found")#: \n" + edges_coordinates)
         if self.cur_depth_imgmsg is not None:
             # compare timestamps
+            print(data.header)
             print(data.header.stamp)
             if abs(self.cur_depth_imgmsg.header.stamp.secs - data.header.stamp.secs) <= 1:
                 if abs(self.cur_depth_imgmsg.header.stamp.nsec - data.header.stamp.nsec) <= 1**8:
