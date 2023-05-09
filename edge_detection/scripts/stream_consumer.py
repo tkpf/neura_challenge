@@ -3,12 +3,6 @@
 from cv_bridge import CvBridge
 from edge_detection.srv import EdgeDetection, EdgeDetectionResponse
 
-# TODO eg starting analyzing of 3d points in new thread to be more efficient
-
-# TODO make new window für jede node
-# TODO debugging log
-# TODO make bag file a variable in launch file
-
 import rospy
 import cv2 as cv
 from sensor_msgs.msg import Image, CameraInfo, PointCloud
@@ -16,14 +10,14 @@ from std_msgs.msg import Header
 from geometry_msgs.msg import Point32
 import numpy as np
 
-# from detector_client import detect_edges_in_image
-
 IMAGE_COLOR_STREAM_TOPIC = '/camera/color/image_raw'
 IMAGE_DEPTH_STREAM_TOPIC = '/camera/depth/image_rect_raw'
 IMAGE_COLOR_CAMERA_INFO_TOPIC = '/camera/color/camera_info'
 IMAGE_DEPTH_CAMERA_INFO_TOPIC ='/camera/depth/camera_info'
 IMAGE_EDGED_TOPIC = '/edge_detection/edged_image'
 EDGE_POINTS_3D_TOPIC = '/edge_detection/edge_points'
+
+# TODO make bag file a variable in launch file
 
 #TODO camera info of depth image necessary? or rectified because of topic name?
 # TODO check if high and width equals resolution etc
@@ -141,6 +135,7 @@ class Stream_Consumer:
 # TODO threading, wait for image data to drop in
 # TODO header comparission and saving
     def depth_image_callback(self, data):
+        print(data.header)
         self.cur_depth_image = self.bridge.imgmsg_to_cv2(data)
 
 # TODO delete global variables
