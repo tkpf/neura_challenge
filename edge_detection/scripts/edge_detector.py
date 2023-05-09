@@ -1,6 +1,5 @@
 # !/usr/bin/env python
 
-# some snippets may originally come from https://github.com/lucasw/image_manip/blob/master/image_manip/scripts/image_folder_publisher.py
 import rospy
 import cv2 as cv
 import numpy as np
@@ -23,7 +22,6 @@ class Edge_Detection_Service:
         rospy.loginfo("Edge Detection Service up. Ready to process Image...")
         rospy.spin()
 
-    # TODO set encodings
     def detection_service_callback(self, req):
         rospy.logdebug("New edge detection callback received.")
         img_in_cvformat = self.cv_bridge.imgmsg_to_cv2(req.img)
@@ -33,18 +31,18 @@ class Edge_Detection_Service:
         processed_imgmsg.header = req.img.header
         return EdgeDetectionResponse(processed_imgmsg)
 
-    def detect_edges(self, img, gaussian_smoothing = False, bilateral_smoothing = True, dilate = True):
+    def detect_corners(self, img, gaussian_smoothing = False, bilateral_smoothing = True, dilate = True):
         if gaussian_smoothing:
             img =  cv.GaussianBlur(img, (5, 5), 0)
         if bilateral_smoothing:
-            img = cv.bilateralFilter(img,5,100,100) # experiment more with parameteres, default values were 9, 75, 75
+            img = cv.bilateralFilter(img,5,100,100) # experiment more with parameteres
 
-        gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+        gray = cv.cvtColor(img,cv.COLOR_RGB2GRAY)
         gray = np.float32(gray)
 
-        dst = cv.cornerHarris(gray,3,5,0.04) # experiment with parameters, default values 2, 3, 0.04
+        dst = cv.cornerHarris(gray,3,5,0.04) # experiment with parameters
         count = np.count_nonzero(dst>0.12*dst.max())
-        rospy.logdebug("Edges found in " + count +  " pixels.")
+        rospy.logdebug("Corners found in " + count +  " pixels.")
 
         #result is dilated for marking the corners better, can be disregarded
         if dilate:
@@ -54,10 +52,9 @@ class Edge_Detection_Service:
         img[dst>0.12*dst.max()]=[0,0,255]
         return img
 
-    # TODO color_brg2gray in all functions
     def detect_edges_canny(self, img):
         # Convert to grayscale
-        gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+        gray = cv.cvtColor(img, cv.COLOR_RGB2GRAY)
         # Detect edges using Canny algorithm
         edges = cv.Canny(gray, 100, 200)
         # dilate to see

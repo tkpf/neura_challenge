@@ -18,13 +18,7 @@ IMAGE_DEPTH_CAMERA_INFO_TOPIC ='/camera/depth/camera_info'
 IMAGE_EDGED_TOPIC = '/edge_detection/edged_image'
 EDGE_POINTS_3D_TOPIC = '/edge_detection/edge_points'
 
-# TODO make bag file a variable in launch file
-
-#TODO camera info of depth image necessary? or rectified because of topic name?
-# TODO check if high and width equals resolution etc
-# TODO what does depth value mean??
-
-# TODO frame id, where is the sensor mounted? transform!!
+# TODO inspect constructed 3d points in detail at assert that they were correct constructed.
 
 
 def construct_3d_points(points_2d, img_depth, K_color, K_depth):
@@ -119,6 +113,7 @@ class Stream_Consumer:
         enriched_img = self.broker(data)
 
     def edged_image_callback(self, data):
+        # encoding: rgb8
         # extract edge point through "greenness"
         img_in_cvformat = self.bridge.imgmsg_to_cv2(data)
         edges_coordinates = (img_in_cvformat == [0, 255, 0])
@@ -136,7 +131,6 @@ class Stream_Consumer:
                 timegab = cur_depth_imgmsg.header.stamp - data.header.stamp
 
             if abs(timegab) <= a:
-                #
                 # extract translations in between sensors
                 # depth_camera is bound to 'camera_depth_optical_frame'
                 # color_camera to 'camera_color_optical_frame'
@@ -161,6 +155,7 @@ class Stream_Consumer:
             rospy.logwarn("No depth image in queue waiting. Skipping.")
 
     def depth_image_callback(self, data):
+        # Encoding: 16UC1
         self.depth_imgmsg_queue.put(data)
 
     def camera_color_intrinistics_callback(self, data):
