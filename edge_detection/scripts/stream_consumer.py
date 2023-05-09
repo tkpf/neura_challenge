@@ -63,7 +63,7 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     h_points_2d_depth_corespondence = K_depth @ h_points_2d_color_undistorted
     h_points_2d_depth_corespondence = h_points_2d_depth_corespondence / h_points_2d_depth_corespondence[-1, :]
     temp = h_points_2d_depth_corespondence
-    rospy.loginfo("Max value first axis:" + str(np.max(temp[:,0].flatten())))
+    rospy.loginfo("Max value first axis:" + str(np.max(temp.T[:,0].flatten())))
 
     h_points_2d_depth_corespondence = np.round(h_points_2d_depth_corespondence).astype(int) #if round, then there might be a error with max indice in img_depth bc out of range??
     depth = [img_depth[tuple(i)] for i in h_points_2d_depth_corespondence[:2,:].T]
