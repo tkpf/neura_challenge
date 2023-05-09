@@ -56,11 +56,15 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     # get correspondent point in depth camera
     h_points_2d_depth_corespondence = K_depth @ h_points_2d_color_undistorted
     h_points_2d_depth_corespondence = h_points_2d_depth_corespondence / h_points_2d_depth_corespondence[-1, :]
-    temp = h_points_2d_depth_corespondence
-    rospy.loginfo("Max value first axis:" + str(np.max(temp.T[:,0].flatten())))
-
-    h_points_2d_depth_corespondence = np.round(h_points_2d_depth_corespondence).astype(int) #if round, then there might be a error with max indice in img_depth bc out of range??
-    depth = [img_depth[tuple(i)] for i in h_points_2d_depth_corespondence[:2,:].T]
+    h_points_2d_depth_corespondence = np.round(h_points_2d_depth_corespondence).astype(int)
+    # cut off indices which are out off bounds due to transformation
+    correspondence_points_cut_off = []
+    (max_h, max_w) = img_depth.shape
+    for p in h_points_2d_depth_corespondence[:2,:].T:
+            if 0 <= p[0] < max_h and 0 <= p[1] < max_w:
+                correspondence_points_cut_off.append(p)
+    rospy.logdebug("Points before cut off: %s\nPoints after cut off: %s", points_2d.shape[0], len(correspondence_points_cut_off))
+    depth = [img_depth[tuple(i)] for i in correspondence_points_cut_off]
     # corresponds to homogenous 3D point on projection plan given inverse depth as 4th entry
     points_3d = h_points_2d_color_undistorted * depth
     assert(points_3d.shape[0] == 3)
@@ -79,7 +83,7 @@ class Stream_Consumer:
         rospy.Subscriber(IMAGE_DEPTH_CAMERA_INFO_TOPIC, CameraInfo, self.camera_depth_intrinistics_callback)
         rospy.Subscriber(IMAGE_EDGED_TOPIC, Image, self.edged_image_callback)
 
-        self.cur_depth_image = None
+        self.cur_depth_imgmsg = None
         self.calibration_matrix_color = None
         self.calibration_matrix_depth = None
 
@@ -118,16 +122,31 @@ class Stream_Consumer:
         edges_coordinates = (img_in_cvformat == [0, 255, 0])
         edges_coordinates = np.array(np.argwhere(edges_coordinates[:,:,0]))
         rospy.logdebug("Edge coordinates found")#: \n" + edges_coordinates)
-        if self.cur_depth_image is not None:
-            points_3d = construct_3d_points(edges_coordinates, self.cur_depth_image, self.calibration_matrix_color, self.calibration_matrix_depth)
-            point_cloud = PointCloud()
-            #set header
-            point_cloud.header =data.header
-            # convert to point cloud points using lambda function
-            convert_points = lambda p: Point32(*p)
-            point_cloud.points = list(map(convert_points, points_3d))
-            rospy.logdebug("Publishing new Point cloud...")
-            self.point_3d_publisher.publish(point_cloud)
+        if self.cur_depth_imgmsg is not None:
+            # compare timestamps
+            if abs(self.cur_depth_imgmsg.stamp.secs - data.stamp.secs) <= 1:
+                if abs(self.cur_depth_imgmsg.stamp.nsec - data.stamp.nsec) <= 1**8:
+                    # extract translations in between sensors
+                    # depth_camera is bound to 'camera_depth_optical_frame'
+                    # color_camera to 'camera_color_optical_frame'
+                    # via cmd 'rostopic echo /tf_static | grep camera_color_optical_frame' no information was found!
+                    if self.cur_depth_imgmsg.frame_id == "camera_depth_optical_frame":
+                        rospy.logwarn("Frame id %s could not be find in topic /tf or /tf_static by manual inspeciton.", self.cur_depth_imgmsg.frame_id)
+                        rospy.logwarn("It is assumed that the depth camera is mounted exactly where the color camera is.")
+                    else:
+                        rospy.logwarn("Exact position of depth camera is not considered. Camera is at frame_id: %s", self.cur_depth_imgmsg.frame_id)
+
+                    points_3d = construct_3d_points(edges_coordinates, self.cur_depth_image, self.calibration_matrix_color, self.calibration_matrix_depth)
+                    point_cloud = PointCloud()
+                    #set header
+                    point_cloud.header =data.header
+                    # convert to point cloud points using lambda function
+                    convert_points = lambda p: Point32(*p)
+                    point_cloud.points = list(map(convert_points, points_3d))
+                    rospy.logdebug("Publishing new Point cloud...")
+                    self.point_3d_publisher.publish(point_cloud)
+                else: rospy.logwarn("Timegab too high between images: %s nanosecond(s).", str(self.cur_depth_imgmsg.stamp.nsec - data.stamp.nsec))
+            else: rospy.logwarn("Timegab too high between images: %s second(s)", str(self.cur_depth_imgmsg.stamp.nsec - data.stamp.nsec))
         else:
             rospy.logwarn("Still no depth image saved.")
 
@@ -135,8 +154,7 @@ class Stream_Consumer:
 # TODO threading, wait for image data to drop in
 # TODO header comparission and saving
     def depth_image_callback(self, data):
-        print(data.header)
-        self.cur_depth_image = self.bridge.imgmsg_to_cv2(data)
+        self.cur_depth_imgmsg = data
 
 # TODO delete global variables
     def camera_color_intrinistics_callback(self, data):
