@@ -4,7 +4,7 @@
     <arg name="open_rviz" default="true" />
 
     <!-- Start the bag file -->
-    <node name="bag_player" pkg="rosbag" type="play" args="$(arg bagfile)"/>
+    <node name="bag_player" pkg="rosbag" type="play" args="-l $(arg bagfile)"/>
 
     <!-- Start the edge_detector.py script -->
     <node name="edge_detector" pkg="edge_detection" type="edge_detector.py" output="screen"/>
