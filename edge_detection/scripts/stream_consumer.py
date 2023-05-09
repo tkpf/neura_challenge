@@ -73,9 +73,8 @@ def construct_3d_points(points_2d, img_depth, K_color, K_depth):
     depth = np.array(depth).reshape(-1, 1)
     c_p = np.array(final_points_2d)
     points_3d = final_points_2d * depth
-    points_3d = points_3d
-    assert(points_3d.shape[0] == 3)
-    return points_3d.T
+    assert(points_3d.shape[1] == 3)
+    return points_3d
 
 class Stream_Consumer:
     '''
