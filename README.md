@@ -44,7 +44,7 @@ Afterwards the launch files in *edge_detection/launch* directory can be runned.
 ### Launch
 The launch directory contains two launch files: 
 1. 'edge_detection_with_local_file.launch' file corresponds to the task in *1. Basic*
-2. 'edge_detection_with_bag_file.launch_ corresponds to task *2. Vision_ROS*
+2. 'edge_detection_with_bag_file.launch' corresponds to task *2. Vision_ROS*
 
 They can be started via the command:
 
@@ -58,7 +58,10 @@ Starts two nodes based on python scripts, namely:
 1. edge_detector.py
 2. detector_client.py
 
-When launching the file a a *file:=* argument can be passed, specifying the path of the image to detect the edges in. The default path is specified as *$(find edge_detector)/data/Image_1.png*  
+When launching the file a a '*file:=*' argument can be passed, specifying the path of the image to detect the edges in. The default path is specified as *$(find edge_detector)/data/Image_1.png* . This could look like:
+```bash
+roslaunch edge_detection edge_detection_with_local_file file:=/home/user/catkin_ws/src/data/Image_2.png
+```
 The analyzed image gets displayed via an image display window.
 
 #### edge_detection_with_bag_file.launch
@@ -68,7 +71,10 @@ Starts 4 nodes in default mode, namely:
 3. stream_consumer.py
 4. rviz
 
-When launching the file a a *bagfile:=* argument should be passed, specifying the path of the bagfile which will be played in loop. Default path is: *$(find edge_detection)/data/withoutpointcloud.bag*
+When launching the file a a *bagfile:=* argument should be passed, specifying the path of the bagfile which will be played in loop. Default path is: *$(find edge_detection)/data/withoutpointcloud.bag*. This could look like:
+```bash
+roslaunch edge_detection edge_detection_with_local_file bagfile:=/home/user/bag_files/withoutpointcloud.bag
+```
 The rviz player node can be turned of when setting the argument *'open_rviz'* to *false*. The rviz player takes the configuration *urdf.rviz* file located in *edge_detection/rviz/* as input.
 
 ### Scripts
