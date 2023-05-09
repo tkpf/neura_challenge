@@ -1,5 +1,5 @@
 <launch>
-    <arg name="bagfile" default="$(find edge_detection)/data//withoutpointcloud.bag" />
+    <arg name="bagfile" default="$(find edge_detection)/data/withoutpointcloud.bag" />
     <arg name="rvizconfig" default="$(find edge_detection)/rviz/urdf.rviz" />
     <arg name="open_rviz" default="true" />
 

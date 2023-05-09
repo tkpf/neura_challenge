@@ -48,7 +48,7 @@ Starts two nodes based on python scripts, namely:
 1. edge_detector.py
 2. detector_client.py
 
-When launching the file a a *--file* argument can be passed, specifying the path of the image to detect the edges in. The default path is specified as *$(find edge_detector)/data/Image_1.png*  
+When launching the file a a *file:=* argument can be passed, specifying the path of the image to detect the edges in. The default path is specified as *$(find edge_detector)/data/Image_1.png*  
 The analyzed image gets displayed via an image display window.
 
 #### edge_detection_with_bag_file.launch
@@ -58,6 +58,7 @@ Starts 4 nodes in default mode, namely:
 3. stream_consumer.py
 4. rviz
 
+When launching the file a a *bagfile:=* argument can be passed, specifying the path of the bagfile which will be played in loop. Default path is: *$(find edge_detection)/data/withoutpointcloud.bag*
 The rviz player node can be turned of when setting the argument *'open_rviz'* to *false*. The rviz player takes the configuration *urdf.rviz* file located in *edge_detection/rviz/* as input.
 
 ### Scripts
@@ -93,9 +94,7 @@ The new publishing topics publish *sensor_msgs/Image* and *sensor_msgs.msg/Point
 
 An **eged_image** (Image) represents a camera image from the */camera/color/image_raw* topic, which was analyzed using the *edge_detector.py* node from task 1. *broker(imgmsg)* takes care of calling the edge_detector service and publishing the analyzed image afterwards.
 The **edge_points** (PointCloud) are calculated using homogenous coordinate transformation in function *construct_3d_points(..)*. The numpy array of the 3d points is then converted into *geometry_msgs/Point32* objectes which then get wrapped up in a list, representing the PointCloud points.  
-[TODO] The results of the 3d points should be checked for validity as the function is implemented form scratch. Also the translation of the depth camera to the color camera is unitl this date (08.05) ignored. This may lead to additional errors.  
-[TODO] Implemented threading or timestamp comparision so that the depth_image complement to the color_image is taken to extract correct 3d point.  
-[TODO] Wrap global parameters by putting functions into class(es). This can also lead to the usage of only on CvBridge() instance. Currently, 3 are in use.
+[TODO] The results of the 3d points should be checked for validity as the function is implemented form scratch. Also the possible translation of the depth camera to the color camera is ignored, because the frame_id linked to the depth camera (*camera_depth_optical_frame*) could not be found in any publishing topic. This may lead to additional errors.
 
 ### ROS Packages
 Build Tool: catkin  
@@ -108,4 +107,7 @@ The following ROS packages where used:
 
 They are declared in both, *package.xml* and CMakeLists.txt*
 
-##
+Further Python packages were included:
+- rospy, cv2, numpy, queue
+
+The packages did not need any explizit installation, but came with the installation of ROS Noetic or Ubuntu OS.

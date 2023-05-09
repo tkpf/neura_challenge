@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
     img_enriched = detect_edges_in_image(img)
 
-    rospy.loginfont("Show Image...")
+    rospy.loginfo("Show Image...")
     cv.imshow('Analyzed_Img',img_enriched)
     if cv.waitKey(0) & 0xff == 27:
         cv.destroyAllWindows()
