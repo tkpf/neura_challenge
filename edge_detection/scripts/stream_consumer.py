@@ -131,13 +131,12 @@ class Stream_Consumer:
         rospy.logdebug("Edge coordinates found")#: \n" + edges_coordinates)
         if not self.depth_imgmsg_queue.empty():
             a = rospy.Duration.from_sec(0.1)
-            timegab = rospy.Duration.from_sec(-999)
+            cur_depth_imgmsg = self.depth_imgmsg_queue.get()
+            timegab = cur_depth_imgmsg.header.stamp - data.header.stamp
             # compare timestamps
             while timegab < - a and not self.depth_imgmsg_queue.empty:
                 # depth images too old
                 rospy.logwarn("Depth image too old. Skipping.")
-                cur_depth_imgmsg = self.depth_imgmsg_queue.get()
-                timegab = cur_depth_imgmsg.header.stamp - data.header.stamp
 
             if abs(timegab) <= a:
                 #
